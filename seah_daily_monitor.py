@@ -420,10 +420,15 @@ def get_stock_signal(ticker: str) -> dict:
                 "volume_ratio_20d": None, "near_52w_high": None, "breakout_score": 0.0}
     close_col  = df["Close"].squeeze()
     volume_col = df["Volume"].squeeze()
+    import math as _math
     close   = float(close_col.iloc[-1])
     volume  = float(volume_col.iloc[-1])
     avg20   = float(volume_col.tail(20).mean())
     high52  = float(close_col.max())
+    if _math.isnan(close): close = 0.0
+    if _math.isnan(volume): volume = 0.0
+    if _math.isnan(avg20) or avg20 == 0: avg20 = 1.0
+    if _math.isnan(high52): high52 = close
     vol_r   = volume / avg20 if avg20 > 0 else None
     near_h  = close >= high52 * 0.98
     score   = 0.0
@@ -663,14 +668,26 @@ def main():
         name = SHORT.get(key, key[:10])
         rows += f"{dpad(name,12)} {d['score_0_1']:.2f}  {d['weight']:>2}  {d['weighted']:>4.1f}\n"
 
-    price_str = f"{int(stock.get('price', 0)):,}" if stock.get("price") else "N/A"
-    vol_str   = f"{stock.get('volume_ratio_20d', 0):.2f}x" if stock.get("volume_ratio_20d") else "N/A"
-    wind_add_str = (f"+{eps_info['wind_add_eps']:,}원"
-                    if eps_info["wind_add_eps"] > 0 else "ADD미반영(26H2전)")
+    import math
+    _price = stock.get("price")
+    price_str = (f"{int(_price):,}" if (_price is not None and not math.isnan(_price))
+                 else "N/A")
+    _vol = stock.get("volume_ratio_20d")
+    vol_str = (f"{_vol:.2f}x" if (_vol is not None and not math.isnan(_vol))
+               else "N/A")
+    wind_add = eps_info.get("wind_add_eps", 0) or 0
+    wind_add_str = (f"+{int(wind_add):,}원" if wind_add > 0 else "ADD미반영(26H2전)")
+
+    def fmt_pct(v):
+        return f"{v:+.1%}" if (v is not None and not math.isnan(v)) else "N/A"
+
+    ts_price = tenaris.get("price")
     ts_line = (
-        f"TS ${tenaris.get('price','?')}  "
-        f"1W:{tenaris.get('ret_1w',0):+.1%} 1M:{tenaris.get('ret_1m',0):+.1%} 3M:{tenaris.get('ret_3m',0):+.1%}"
-        if tenaris.get("price") else ""
+        f"TS ${ts_price:.2f}  "
+        f"1W:{fmt_pct(tenaris.get('ret_1w'))} "
+        f"1M:{fmt_pct(tenaris.get('ret_1m'))} "
+        f"3M:{fmt_pct(tenaris.get('ret_3m'))}"
+        if (ts_price is not None and not math.isnan(float(ts_price))) else ""
     )
 
     short_msg = (
