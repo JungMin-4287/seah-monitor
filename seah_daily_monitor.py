@@ -91,7 +91,53 @@ def score_pipe_price_proxy(cfg):
     }
 
 
-def google_news(query: str, days: int = 14, lang="en-US", country="US") -> list[dict]:
+def score_fred_commodity(series_id: str, name: str, comment_suffix: str = "") -> dict:
+    """
+    FRED 시리즈에서 원자재/경기 가격 모멘텀 채점.
+    일간(DHHNGSP, DCOILWTICO) / 월간(WPU 시리즈) 자동 감지.
+    상승 = 에너지 강관 수요 촉진 → 긍정 신호.
+    """
+    df = fred_csv(series_id)
+
+    # 주기 자동 감지 (월간 vs 일간)
+    avg_gap = (df["date"].iloc[-1] - df["date"].iloc[-2]).days if len(df) >= 2 else 1
+    is_monthly = avg_gap > 20
+
+    p1 = 1  if is_monthly else 22   # 1개월
+    p3 = 3  if is_monthly else 66   # 3개월
+
+    mom_1m = pct_change_latest(df, p1)
+    mom_3m = pct_change_latest(df, p3)
+
+    latest      = float(df["value"].iloc[-1])
+    latest_date = df["date"].iloc[-1].date().isoformat()
+
+    score = 0.0
+    if mom_1m is not None:
+        if   mom_1m > 0.05:  score += 0.50
+        elif mom_1m > 0.01:  score += 0.30
+        elif mom_1m > 0:     score += 0.15
+    if mom_3m is not None:
+        if   mom_3m > 0.10:  score += 0.50
+        elif mom_3m > 0.03:  score += 0.30
+        elif mom_3m > 0:     score += 0.15
+
+    score = min(round(score, 3), 1.0)
+
+    m1s = f"{mom_1m:+.1%}" if mom_1m is not None else "N/A"
+    m3s = f"{mom_3m:+.1%}" if mom_3m is not None else "N/A"
+
+    return {
+        "name": name,
+        "score": score,
+        "latest": latest,
+        "latest_date": latest_date,
+        "mom_1m": mom_1m,
+        "mom_3m": mom_3m,
+        "comment": f"{latest:.2f} | 1M:{m1s}  3M:{m3s}  {comment_suffix}".strip()
+    }
+
+
     url = (
         "https://news.google.com/rss/search?"
         f"q={quote_plus(query)}&hl={lang}&gl={country}&ceid={country}:en"
@@ -561,28 +607,22 @@ def main():
     stock = get_stock_signal(cfg["ticker"])
 
     pipe = score_pipe_price_proxy(cfg)
-    rig = parse_rig_count_from_news(state)
+    rig  = parse_rig_count_from_news(state)
 
-    seah_score, seah_items, seah_pos, seah_neg = keyword_news_score(
-        cfg["news_queries"]["seah_usa_proxy"],
-        cfg["positive_keywords"],
-        cfg["negative_keywords"],
-        days=14
+    # ③ SeAH USA proxy → Henry Hub 천연가스 현물가 (E&P capex 선행지표)
+    henry_hub = score_fred_commodity(
+        "DHHNGSP", "Henry Hub 천연가스",
+        "E&P capex 선행지표 | 상승=OCTG 수요↑"
     )
-
-    adnoc_score, adnoc_items, adnoc_pos, adnoc_neg = keyword_news_score(
-        cfg["news_queries"]["adnoc_middle_east"],
-        cfg["positive_keywords"],
-        cfg["negative_keywords"],
-        days=14
+    # ④ ADNOC/중동 proxy → WTI 유가 (중동 프로젝트 드라이버)
+    wti = score_fred_commodity(
+        "DCOILWTICO", "WTI 유가",
+        "중동 프로젝트 드라이버 | 상승=발주↑"
     )
-
-    # 아프리카 → 미국 미드스트림/알래스카 LNG (실제 자본배분 본류)
-    midstream_score, midstream_items, midstream_pos, midstream_neg = keyword_news_score(
-        cfg["news_queries"]["us_midstream_alaska"],
-        cfg["positive_keywords"],
-        cfg["negative_keywords"],
-        days=21
+    # ⑤ Alaska/ET proxy → 철강 밀 제품 PPI (파이프라인 수요 proxy)
+    steel_ppi = score_fred_commodity(
+        "WPU1017", "철강 PPI (Steel mill)",
+        "파이프라인 수요 proxy | 상승=강관 수요↑"
     )
 
     us_proxy = score_us_proxy_stocks(cfg)
@@ -590,9 +630,9 @@ def main():
     eps_cycle_inputs = {
         "pipe_price_proxy": pipe,
         "rig_count_proxy":  rig,
-        "seah_usa_proxy":   {"score": seah_score},
-        "adnoc_middle_east":{"score": adnoc_score},
-        "us_midstream_alaska":{"score": midstream_score},
+        "henry_hub":        henry_hub,
+        "wti_price":        wti,
+        "steel_ppi":        steel_ppi,
         "us_proxy_stocks":  us_proxy,
     }
     cycle = determine_cycle_stage(eps_cycle_inputs)
@@ -600,43 +640,18 @@ def main():
 
     signals = {
         "pipe_price_proxy": pipe,
-        "rig_count_proxy": rig,
-        "seah_usa_proxy": {
-            "name": "SeAH Steel USA 가동률 proxy",
-            "score": seah_score,
-            "positive_news_count": seah_pos,
-            "negative_news_count": seah_neg,
-            "items": seah_items,
-            "comment": "직접 가동률 공시는 드묾. SeAH USA/OCTG/line pipe 뉴스로 proxy 추적."
-        },
-        "adnoc_middle_east": {
-            "name": "ADNOC·중동 수주 proxy",
-            "score": adnoc_score,
-            "positive_news_count": adnoc_pos,
-            "negative_news_count": adnoc_neg,
-            "items": adnoc_items,
-            "comment": "ADNOC, XRG, API pipeline, clad pipe 관련 뉴스 추적."
-        },
-        # [변경] africa_projects → us_midstream_alaska
-        # Energy Transfer 미드스트림 CAPEX + Alaska LNG 라인파이프가 실제 자본배분 본류
-        "us_midstream_alaska": {
-            "name": "미국 미드스트림·Alaska LNG proxy",
-            "score": midstream_score,
-            "positive_news_count": midstream_pos,
-            "negative_news_count": midstream_neg,
-            "items": midstream_items,
-            "comment": "ET Hugh Brinson/Desert SW, Alaska LNG 739마일 API 5L 라인파이프 뉴스 추적."
-        },
-        "forward_eps": eps,
-        # [신규] breakout_signal — 기존 코드에서 계산했지만 종합점수에 미반영됐던 항목
+        "rig_count_proxy":  rig,
+        "henry_hub":        henry_hub,
+        "wti_price":        wti,
+        "steel_ppi":        steel_ppi,
+        "forward_eps":      eps,
         "breakout_signal": {
             "name": "주가 돌파 신호",
             "score": stock.get("breakout_score", 0.0),
             "near_52w_high": stock.get("near_52w_high"),
             "volume_ratio_20d": stock.get("volume_ratio_20d"),
-            "comment": "52주 고가 98% 이상 + 거래량 2배 이상 동시 충족 시 1.0. 강관 테마 과열 경보로도 활용."
+            "comment": "52주 고가 98% 이상 + 거래량 2배 이상 동시 충족 시 1.0."
         },
-        # [신규] 미국 에너지·강관 proxy 주가 모멘텀
         "us_proxy_stocks": us_proxy,
     }
 
@@ -658,14 +673,14 @@ def main():
 
     # 지표 단축명 (고정폭 정렬용)
     SHORT = {
-        "pipe_price_proxy":    "Pipe PPI",
-        "rig_count_proxy":     "Rig Count",
-        "seah_usa_proxy":      "SeAH USA",
-        "adnoc_middle_east":   "ADNOC/중동",
-        "us_midstream_alaska": "Alaska/ET",
-        "forward_eps":         "EPS/PER",
-        "breakout_signal":     "돌파신호",
-        "us_proxy_stocks":     "US Proxy",
+        "pipe_price_proxy": "Pipe PPI",
+        "rig_count_proxy":  "Rig Count",
+        "henry_hub":        "Henry Hub",
+        "wti_price":        "WTI유가",
+        "steel_ppi":        "Steel PPI",
+        "forward_eps":      "EPS/PER",
+        "breakout_signal":  "돌파신호",
+        "us_proxy_stocks":  "US Proxy",
     }
 
     rows = ""
