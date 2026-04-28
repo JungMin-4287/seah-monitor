@@ -414,27 +414,32 @@ def determine_cycle_and_eps(cycle_signals: dict, seah_wind_score: float,
 # ─────────────────────────────────────────────
 
 def get_stock_signal(ticker: str) -> dict:
-    # period="5d"로 최근 거래일 데이터 확실히 확보
-    # 52주 고가는 별도로 1y 데이터 사용
     import math as _math
 
-    df_5d = yf.download(ticker, period="5d",  auto_adjust=True, progress=False)
-    df_1y = yf.download(ticker, period="1y",  auto_adjust=True, progress=False)
+    df_5d = yf.download(ticker, period="5d", auto_adjust=True, progress=False)
+    df_1y = yf.download(ticker, period="1y", auto_adjust=True, progress=False)
 
     if df_5d.empty or df_1y.empty:
         return {"price": None, "volume": None,
                 "volume_ratio_20d": None, "near_52w_high": None, "breakout_score": 0.0}
 
-    close_5d   = df_5d["Close"].squeeze()
-    close_1y   = df_1y["Close"].squeeze()
-    volume_1y  = df_1y["Volume"].squeeze()
+    # yfinance 버그: 당일 Close=NaN, Volume=유효 행이 추가되는 경우 있음 → dropna 제거
+    close_5d  = df_5d["Close"].squeeze().dropna()
+    vol_5d    = df_5d["Volume"].squeeze()
+    close_1y  = df_1y["Close"].squeeze().dropna()
+    volume_1y = df_1y["Volume"].squeeze()
 
-    close  = float(close_5d.iloc[-1])
-    volume = float(df_5d["Volume"].squeeze().iloc[-1])
-    avg20  = float(volume_1y.tail(20).mean())
-    high52 = float(close_1y.max())
+    if close_5d.empty or close_1y.empty:
+        return {"price": None, "volume": None,
+                "volume_ratio_20d": None, "near_52w_high": None, "breakout_score": 0.0}
 
-    # NaN 이면 None 반환 (0원 출력 방지)
+    close   = float(close_5d.iloc[-1])
+    # Volume은 NaN 행의 거래량이 실제 당일 거래량일 수 있으므로 마지막 유효값 사용
+    vol_valid = vol_5d.dropna()
+    volume  = float(vol_valid.iloc[-1]) if not vol_valid.empty else 0.0
+    avg20   = float(volume_1y.tail(20).mean())
+    high52  = float(close_1y.max())
+
     if _math.isnan(close):
         return {"price": None, "volume": None,
                 "volume_ratio_20d": None, "near_52w_high": None, "breakout_score": 0.0}
