@@ -1,0 +1,40 @@
+name: Seah Daily Monitor
+
+on:
+  schedule:
+    # 한국시간 오전 7:30 = UTC 22:30
+    - cron: "30 22 * * 0-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run-monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run monitor
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python seah_daily_monitor.py
+
+      - name: Commit report
+        run: |
+          git config user.name "seah-monitor-bot"
+          git config user.email "bot@example.com"
+          git add data/seah_daily_report.md data/seah_daily_history.csv data/state.json
+          git commit -m "Update Seah daily monitor report" || echo "No changes"
+          git push
