@@ -314,6 +314,41 @@ def score_korean_pipe_exports() -> dict:
 
 
 
+def score_steel_ppi() -> dict:
+    """
+    FRED WPU1017 — 미국 Steel Mill Products PPI (월간).
+    Census HS7306(2개월 지연)과 보완 관계:
+    PPI는 당월 반영되므로 수출 볼륨 데이터 공백 구간을 메워줌.
+    미국 철강 PPI 상승 = 미국 내 생산 단가 상승 = 한국산 수입이 더 유리해짐.
+    """
+    df          = fred_csv("WPU1017")
+    latest      = float(df["value"].iloc[-1])
+    latest_date = df["date"].iloc[-1].date().isoformat()
+    mom_1m      = pct_change_latest(df, 1)
+    mom_3m      = pct_change_latest(df, 3)
+    score = 0.0
+    if mom_1m is not None:
+        if   mom_1m > 0.08: score += 0.50
+        elif mom_1m > 0.03: score += 0.35
+        elif mom_1m > 0:    score += 0.20
+    if mom_3m is not None:
+        if   mom_3m > 0.15: score += 0.50
+        elif mom_3m > 0.05: score += 0.30
+        elif mom_3m > 0:    score += 0.15
+    score = min(round(score, 3), 1.0)
+    m1s = f"{mom_1m:+.1%}" if mom_1m is not None else "N/A"
+    m3s = f"{mom_3m:+.1%}" if mom_3m is not None else "N/A"
+    return {
+        "name":        "美Steel PPI",
+        "score":       score,
+        "latest":      latest,
+        "latest_date": latest_date,
+        "mom_1m":      mom_1m,
+        "mom_3m":      mom_3m,
+        "comment":     f"WPU1017={latest:.1f} | 1M:{m1s} 3M:{m3s} (美HRC↑=韓수출경쟁력↑, FRED 월간)",
+    }
+
+
 def score_tenaris() -> dict:
     """
     세계 최대 OCTG 메이커 Tenaris(TS NYSE).
@@ -679,13 +714,15 @@ def main():
     rig         = parse_rig_count_from_news(state)
     wti         = score_wti()
     export_comp = score_korean_pipe_exports()
+    steel_ppi   = score_steel_ppi()
     tenaris     = score_tenaris()
     seah_wind   = score_seah_wind(cfg)
     us_proxy    = score_us_proxy_stocks(cfg)
 
     cycle_inputs = {
         "pipe": pipe, "rig": rig, "wti": wti,
-        "export_comp": export_comp, "tenaris": tenaris, "us_proxy": us_proxy,
+        "export_comp": export_comp, "steel_ppi": steel_ppi,
+        "tenaris": tenaris, "us_proxy": us_proxy,
     }
     eps_info = determine_cycle_and_eps(
         cycle_inputs, seah_wind.get("score", 0.0), stock.get("price")
@@ -696,6 +733,7 @@ def main():
         "rig_count":       rig,
         "wti_price":       wti,
         "export_comp":     export_comp,
+        "steel_ppi":       steel_ppi,
         "tenaris":         tenaris,
         "seah_wind":       seah_wind,
         "forward_eps":     eps_info,
@@ -726,6 +764,7 @@ def main():
         "rig_count":       "Rig(후행)",
         "wti_price":       "WTI유가",
         "export_comp":     "韓강관수출",
+        "steel_ppi":       "美Steel PPI",
         "tenaris":         "TS선행",
         "seah_wind":       "SeAHWind★",
         "forward_eps":     "EPS/PER",

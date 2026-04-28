@@ -18,16 +18,17 @@ ticker: "003030.KS"   # 세아제강지주(003030) — 지주사
 #   score  < 0.30→ ADD      0원  (아직 인식 전)
 
 weights:
-  pipe_ppi:        12   # FRED WPU10170652 (탄소강 파이프 PPI, 월간)
-  rig_count:        6   # Baker Hughes 뉴스 — 후행지표, 의도적 최소화
-  wti_price:       12   # FRED DCOILWTICO (WTI유가, 일간)
-  export_comp:     10   # US Census HS7306 한국산 강관 對美수입 금액 MoM/YoY
+  pipe_ppi:        10   # FRED WPU10170652 (탄소강 파이프 PPI, 월간)
+  rig_count:        5   # Baker Hughes 뉴스 — 후행지표, 의도적 최소화
+  wti_price:       10   # FRED DCOILWTICO (WTI유가, 일간)
+  export_comp:      9   # US Census HS7306 한국산 강관 對美수입 금액 MoM/YoY
+  steel_ppi:        8   # FRED WPU1017 (美Steel PPI) — Census 2개월 지연 보완
   tenaris:         10   # Tenaris(TS NYSE) — OCTG 선행지표
-  seah_wind:       12   # SeAH Wind 뉴스 모멘텀 ★ 핵심 신규
+  seah_wind:       12   # SeAH Wind 뉴스 모멘텀 ★ 핵심
   forward_eps:     13   # 사이클자동판단 + SeAHWind ADD → Forward PER
-  breakout_signal: 12   # yfinance 003030.KS (52주고가권 + 거래량)
-  us_proxy:        13   # DNOW·TS·BKR·HAL·SLB·HP·PTEN (1W/1M)
-# 합계: 100
+  breakout_signal: 11   # yfinance 003030.KS (52주고가권 + 거래량)
+  us_proxy:        12   # DNOW·TS·BKR·HAL·SLB·HP·PTEN (1W/1M)
+# 합계: 100  (10+5+10+9+8+10+12+13+11+12=100)
 
 fred_series:
   carbon_pipe_ppi: "WPU10170652"
