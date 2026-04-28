@@ -391,32 +391,79 @@ def score_tenaris() -> dict:
 
 def score_seah_wind(cfg) -> dict:
     """
-    분석글 핵심 스토리:
-    - 영국 티사이드 공장: 영국 유일 해상풍력 하부구조물 현지 생산법인
-    - 수주잔고 ~2조원, 26년 하반기 매출 인식 시작
-    - 풀캐파 기준 연간 ADD OP 1,800억~2,400억 (세아제강지주 77% 연결)
-    - 영국 CfD AR8 + CIB(청정산업보너스) 현지 공급망 보조금 유일 수혜자
-    - 경쟁사(SIF, EEW)는 영국 내 공장 없음 → 보조금 수혜 불가
-    - 26년 하반기 ~ 27년: 2조 캐파 × OPM 10~15% × 77% 연결 = 구조적 EPS 업사이드
+    SeAH Wind + 영국/대만/한국/글로벌 해상풍력 종합 모멘텀.
+    한국어 쿼리는 hl=ko&gl=KR, 영문 쿼리는 hl=en-US&gl=US 분리 처리.
     """
-    queries = cfg["news_queries"]["seah_wind"]
-    pos_kw  = (cfg["positive_keywords"]
-               + ["monopile", "foundation", "offshore wind", "AR8", "CfD", "CIB",
-                  "Teesside", "local content", "substructure", "SeAH Wind"])
-    neg_kw  = (cfg["negative_keywords"]
-               + ["cancel bid", "competition delay", "FID postpone"])
-    score, items, pos, neg = keyword_news_score(queries, pos_kw, neg_kw, days=21)
+    all_queries = cfg["news_queries"]["seah_wind"]
+
+    # 한국어 쿼리 / 영문 쿼리 분리
+    kr_queries = [q for q in all_queries if any(ord(c) > 0x2E7F for c in q)]
+    en_queries = [q for q in all_queries if q not in kr_queries]
+
+    pos_kw = (cfg["positive_keywords"]
+              + ["monopile", "foundation", "offshore wind", "AR8", "CfD", "CIB",
+                 "Teesside", "local content", "substructure", "SeAH Wind",
+                 "해상풍력", "모노파일", "하부구조물", "수주", "계약"])
+    neg_kw = (cfg["negative_keywords"]
+              + ["cancel bid", "competition delay", "FID postpone",
+                 "사업 취소", "입찰 실패", "공사 중단"])
+
+    # 영문 뉴스 수집
+    en_score, en_items, en_pos, en_neg = keyword_news_score(
+        en_queries, pos_kw, neg_kw, days=21
+    )
+
+    # 한국어 뉴스 수집 (hl=ko&gl=KR)
+    kr_items_raw = []
+    for q in kr_queries:
+        try:
+            kr_items_raw.extend(google_news(q, days=21, lang="ko", country="KR"))
+        except Exception:
+            pass
+
+    # 한국어 뉴스 중복 제거 및 채점
+    seen_kr = set()
+    kr_items = []
+    for item in kr_items_raw:
+        key = item["title"].lower()
+        if key not in seen_kr:
+            seen_kr.add(key)
+            kr_items.append(item)
+
+    kr_pos = kr_neg = 0
+    for item in kr_items:
+        text = (item["title"] + " " + item["summary"]).lower()
+        if any(k.lower() in text for k in pos_kw):
+            kr_pos += 1
+        if any(k.lower() in text for k in neg_kw):
+            kr_neg += 1
+
+    # 영문 + 한국어 합산
+    total_pos = en_pos + kr_pos
+    total_neg = en_neg + kr_neg
+    raw       = total_pos - total_neg
+
+    if   raw >= 5: score = 1.0
+    elif raw >= 3: score = 0.75
+    elif raw >= 1: score = 0.50
+    elif raw == 0: score = 0.25
+    else:          score = 0.0
+
+    all_items = (en_items + kr_items)[:10]
+
     return {
         "name":                "SeAH Wind ★",
         "score":               score,
-        "positive_news_count": pos,
-        "negative_news_count": neg,
-        "items":               items,
+        "positive_news_count": total_pos,
+        "negative_news_count": total_neg,
+        "kr_news_count":       len(kr_items),
+        "en_news_count":       len(en_items),
+        "items":               all_items,
         "comment": (
-            f"긍정{pos}/부정{neg}건(21일) | "
+            f"긍정{total_pos}/부정{total_neg}건(21일) "
+            f"[영문{len(en_items)}+한국어{len(kr_items)}건] | "
             "영국CfD AR8·CIB 유일수혜. "
-            "수주잔고~2조, 26H2 매출인식. "
-            "풀캐파ADD OP 1,800~2,400억(77%연결)"
+            "수주잔고~2조, 26H2 매출인식."
         ),
     }
 

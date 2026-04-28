@@ -53,10 +53,11 @@ news_queries:
     - 'Taiwan offshore wind CAPEX 2026 contract'
     - 'Taiwan offshore wind foundation supply'
 
-    # ── 한국 해상풍력 (국내 시장)
-    - '한국 해상풍력 모노파일 하부구조물 수주'
-    - 'Korea offshore wind monopile substructure 2026'
-    - '해상풍력 특별법 CfD 하부구조물'
+    # ── 한국 해상풍력 (국내 시장) — 짧은 쿼리가 더 잘 잡힘
+    - '해상풍력 모노파일'
+    - '해상풍력 하부구조물'
+    - '해상풍력 수주 계약'
+    - 'Korea offshore wind 2026'
 
     # ── 글로벌 해상풍력 CAPEX 방향성
     - 'offshore wind CAPEX investment record 2026'
@@ -113,6 +114,12 @@ negative_keywords:
   - "no bids"
   - "cost overrun"
   - "bankrupt"
+  # 한국어 부정
+  - "계약 중단"
+  - "계약 취소"
+  - "해지"
+  - "사업 취소"
+  - "중단"
 
 telegram:
   enabled: true
