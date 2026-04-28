@@ -290,6 +290,71 @@ def score_forward_eps(stock_price: float | None, forecast_eps: int):
     }
 
 
+def score_us_proxy_stocks(cfg):
+    """
+    미국 에너지·강관 업황 proxy 주가 모멘텀 채점.
+    DNOW, TS, BKR, HAL, SLB, HP, PTEN 1개월 수익률 기준.
+    """
+    tickers = {
+        "DNOW": "PVF 유통 proxy",
+        "TS":   "OCTG·라인파이프 peer",
+        "BKR":  "LNG·가스 인프라",
+        "HAL":  "북미 유정 서비스",
+        "SLB":  "글로벌 E&P CAPEX",
+        "HP":   "미국 육상 rig",
+        "PTEN": "drilling/completion",
+    }
+
+    results = {}
+    returns = []
+
+    for ticker, desc in tickers.items():
+        try:
+            df = yf.download(ticker, period="3mo", auto_adjust=True, progress=False)
+            if df.empty:
+                results[ticker] = {"return_1m": None, "desc": desc}
+                continue
+            close = df["Close"].squeeze()
+            latest   = float(close.iloc[-1])
+            month_ago = float(close.iloc[-21]) if len(close) >= 21 else float(close.iloc[0])
+            ret = (latest / month_ago) - 1
+            results[ticker] = {"return_1m": round(ret, 4), "price": round(latest, 2), "desc": desc}
+            returns.append(ret)
+        except Exception:
+            results[ticker] = {"return_1m": None, "desc": desc}
+
+    if not returns:
+        score = 0.25
+    else:
+        pos_ratio = sum(1 for r in returns if r > 0) / len(returns)
+        avg_ret   = sum(returns) / len(returns)
+        if pos_ratio >= 0.71 and avg_ret > 0.03:
+            score = 1.0
+        elif pos_ratio >= 0.57:
+            score = 0.75
+        elif pos_ratio >= 0.43:
+            score = 0.50
+        elif pos_ratio >= 0.29:
+            score = 0.25
+        else:
+            score = 0.0
+
+    pos_cnt = sum(1 for r in returns if r > 0)
+    ticker_lines = ", ".join(
+        f"{t}:{v['return_1m']:+.1%}" if v["return_1m"] is not None else f"{t}:N/A"
+        for t, v in results.items()
+    )
+
+    return {
+        "name": "미국 에너지·강관 proxy 주가",
+        "score": score,
+        "positive_count": pos_cnt,
+        "total_count": len(returns),
+        "ticker_returns": ticker_lines,
+        "comment": f"DNOW·TS·BKR·HAL·SLB·HP·PTEN 1M 수익률. {pos_cnt}/{len(returns)} 상승."
+    }
+
+
 def weighted_score(signals, weights):
     total = 0.0
     detail = {}
@@ -430,6 +495,7 @@ def main():
     )
 
     eps = score_forward_eps(stock.get("price"), int(cfg["forecast_eps"]))
+    us_proxy = score_us_proxy_stocks(cfg)
 
     signals = {
         "pipe_price_proxy": pipe,
@@ -469,6 +535,8 @@ def main():
             "volume_ratio_20d": stock.get("volume_ratio_20d"),
             "comment": "52주 고가 98% 이상 + 거래량 2배 이상 동시 충족 시 1.0. 강관 테마 과열 경보로도 활용."
         },
+        # [신규] 미국 에너지·강관 proxy 주가 모멘텀
+        "us_proxy_stocks": us_proxy,
     }
 
     score_total, score_detail = weighted_score(signals, cfg["weights"])
@@ -480,16 +548,37 @@ def main():
 
     print(report)
 
-    # 지표별 점수 한 줄씩 조립
+    # 한글은 폭 2칸 → display_pad 로 보정
+    def dw(s):
+        return sum(2 if ord(c) > 0x2E7F else 1 for c in s)
+
+    def dpad(s, width):
+        return s + ' ' * max(0, width - dw(s))
+
+    # 지표 단축명 (고정폭 정렬용)
+    SHORT = {
+        "pipe_price_proxy":    "Pipe PPI",
+        "rig_count_proxy":     "Rig Count",
+        "seah_usa_proxy":      "SeAH USA",
+        "adnoc_middle_east":   "ADNOC/중동",
+        "us_midstream_alaska": "Alaska/ET",
+        "forward_eps":         "EPS/PER",
+        "breakout_signal":     "돌파신호",
+        "us_proxy_stocks":     "US Proxy",
+    }
+
     rows = ""
     for key, sig in signals.items():
         d = score_detail[key]
-        name  = sig.get("name", key)[:18]          # 너무 길면 자름
-        rows += f"  {name:<20} {d['score_0_1']:.2f} × {d['weight']:>2} = {d['weighted']:.1f}\n"
+        name = SHORT.get(key, sig.get("name", key)[:10])
+        rows += f"{dpad(name,12)} {d['score_0_1']:.2f}  {d['weight']:>2}  {d['weighted']:>4.1f}\n"
 
     price_str = f"{int(stock.get('price', 0)):,}" if stock.get('price') else "N/A"
     vol_str   = f"{stock.get('volume_ratio_20d', 0):.2f}x" if stock.get('volume_ratio_20d') else "N/A"
     per_str   = str(eps.get('forward_per', 'N/A'))
+
+    # US proxy 종목별 수익률 한 줄 요약
+    proxy_line = us_proxy.get("ticker_returns", "")
 
     short_msg = (
         f"📊 세아제강지주(003030) 일일 모니터\n"
@@ -498,10 +587,11 @@ def main():
         f"현재가: {price_str}원  |  거래량배율: {vol_str}\n"
         f"━━━━━━━━━━━━━━━━━━\n"
         f"```\n"
-        f"지표                     점수 가중치  합계\n"
+        f"지표          점수  가중  합산\n"
         f"{rows}"
         f"```\n"
-        f"Forward PER: {per_str}배"
+        f"Forward PER: {per_str}배\n"
+        f"📈 US proxy: {proxy_line}"
     )
     send_telegram_if_enabled(cfg, short_msg)
 
