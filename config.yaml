@@ -1,62 +1,52 @@
-ticker: "003030.KS"   # 세아제강지주 (지주사)
+ticker: "003030.KS"   # 세아제강지주(003030) — 지주사
 
-# forecast_eps는 더 이상 수동 입력하지 않습니다.
-# 매일 업황 지표(pipe_ppi, rig_count, seah_usa, adnoc, midstream, us_proxy) 평균 점수로
-# 사이클 단계를 자동 판단해 EPS를 결정합니다.
+# forecast_eps 수동 입력 불필요.
+# 매일 업황 6개 신호 평균 → 사이클 단계 → 본업EPS 자동 결정
+# + SeAH Wind 뉴스 점수 → ADD EPS 자동 산출
 #
-# 사이클 자동판단 기준:
-#   avg ≥ 0.70 → 슈퍼사이클  EPS 70,000원  (2022~23년 수준)
-#   avg ≥ 0.55 → 강세        EPS 55,000원
-#   avg ≥ 0.40 → 기본회복    EPS 45,000원  (북미 OCTG+해외법인 개선)
-#   avg ≥ 0.25 → 약한회복    EPS 35,000원
-#   avg  < 0.25→ 저점        EPS 25,000원
+# 본업 EPS 자동판단:
+#   avg ≥ 0.70 → 슈퍼사이클 EPS 90,000원  (22~23년 피크 수준)
+#   avg ≥ 0.55 → 강세       EPS 65,000원
+#   avg ≥ 0.40 → 기본회복   EPS 45,000원  (26E 기본 시나리오)
+#   avg ≥ 0.25 → 약한회복   EPS 30,000원
+#   avg  < 0.25→ 저점       EPS 15,000원  (25년 실적 수준)
+#
+# SeAH Wind ADD EPS (77%연결, 발행주수 4,141천주):
+#   score ≥ 0.70 → ADD 16,000원  (풀캐파 ADD OP ~2,400억)
+#   score ≥ 0.50 → ADD 10,000원  (ADD OP ~1,500억)
+#   score ≥ 0.30 → ADD  5,000원  (26H2 부분인식 ~700억)
+#   score  < 0.30→ ADD      0원  (아직 인식 전)
 
 weights:
-  pipe_price_proxy: 15   # FRED WPU10170652 (탄소강 파이프 PPI, 월간)
-  rig_count_proxy:  10   # Baker Hughes 뉴스 파싱
-  henry_hub:        10   # FRED DHHNGSP (Henry Hub 천연가스, 일간)
-  wti_price:        15   # FRED DCOILWTICO (WTI 유가, 일간)
-  steel_ppi:        10   # FRED WPU1017 (철강 밀 제품 PPI, 월간)
-  us_proxy_stocks:  10   # DNOW·TS·BKR·HAL·SLB·HP·PTEN (1W/1M)
-  forward_eps:      15   # 사이클 자동판단 → EPS → Forward PER
-  breakout_signal:  15   # yfinance 003030.KS (52주 고가권 + 거래량)
+  pipe_ppi:        12   # FRED WPU10170652 (탄소강 파이프 PPI, 월간)
+  rig_count:        6   # Baker Hughes 뉴스 — 후행지표, 의도적 최소화
+  wti_price:       12   # FRED DCOILWTICO (WTI유가, 일간)
+  export_comp:     10   # FRED WPU1017 — 美HRC↑=韓수출경쟁력↑(관세역설)
+  tenaris:         10   # Tenaris(TS NYSE) — OCTG 선행지표
+  seah_wind:       12   # SeAH Wind 뉴스 모멘텀 ★ 핵심 신규
+  forward_eps:     13   # 사이클자동판단 + SeAHWind ADD → Forward PER
+  breakout_signal: 12   # yfinance 003030.KS (52주고가권 + 거래량)
+  us_proxy:        13   # DNOW·TS·BKR·HAL·SLB·HP·PTEN (1W/1M)
+# 합계: 100
 
 fred_series:
   carbon_pipe_ppi: "WPU10170652"
-  steel_pipe_tube_ppi: "WPU101706"
-  fabricated_pipe_fittings_ppi: "WPU107411"
 
 news_queries:
-  seah_usa_proxy:
-    - '"SeAH Steel USA" "line pipe"'
-    - '"SeAH Steel USA" OCTG capacity utilization'
-    - '"SeAH Steel USA" Houston Texas'
-    - 'SeAH Steel USA midstream pipeline contract'
-
-  adnoc_middle_east:
-    - 'ADNOC SeAH Steel Holdings API pipeline'
-    - 'ADNOC XRG US gas pipeline'
-    - 'ADNOC Hail Ghasha clad pipe award'
-    - 'ADNOC oil gas project line pipe 2026'
-
-  # 아프리카 프록시 → 미국 미드스트림/알래스카 LNG로 교체
-  # (실제 세아제강지주(003030) 자본배분 본류는 ET 미드스트림 CAPEX + Alaska LNG 라인파이프)
-  us_midstream_alaska:
-    - '"Energy Transfer" "line pipe" pipeline 2026 CAPEX'
-    - '"Hugh Brinson Pipeline" Texas steel'
-    - '"Desert Southwest" pipeline steel procurement'
-    - '"Alaska LNG" pipeline steel contract'
-    - '"Alaska LNG" "line pipe" procurement 2026'
-    - 'Glenfarne "line pipe" steel API 5L'
-    - 'US midstream pipeline CAPEX "line pipe" award'
+  seah_wind:
+    - '"SeAH Wind" monopile offshore contract'
+    - '"SeAH Wind" Teesside order award'
+    - 'UK offshore wind AR8 CfD substructure monopile'
+    - 'UK offshore wind "local content" CIB bonus'
+    - '"SeAH Wind" foundation supply'
+    - 'RWE "Nordseecluster" monopile substructure'
+    - 'UK offshore wind monopile order 2026'
 
 positive_keywords:
   - "contract"
   - "supply"
   - "FID"
-  - "restart"
   - "award"
-  - "expansion"
   - "procurement"
   - "capacity"
   - "line pipe"
@@ -65,6 +55,12 @@ positive_keywords:
   - "pipeline"
   - "CAPEX"
   - "midstream"
+  - "expansion"
+  - "monopile"
+  - "offshore wind"
+  - "foundation"
+  - "CfD"
+  - "AR8"
 
 negative_keywords:
   - "delay"
@@ -72,7 +68,6 @@ negative_keywords:
   - "postpone"
   - "force majeure"
   - "sanction"
-  - "security risk"
   - "shutdown"
   - "tariff"
   - "import duty"
