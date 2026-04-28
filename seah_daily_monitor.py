@@ -414,19 +414,30 @@ def determine_cycle_and_eps(cycle_signals: dict, seah_wind_score: float,
 # ─────────────────────────────────────────────
 
 def get_stock_signal(ticker: str) -> dict:
-    df = yf.download(ticker, period="1y", auto_adjust=True, progress=False)
-    if df.empty:
+    # period="5d"로 최근 거래일 데이터 확실히 확보
+    # 52주 고가는 별도로 1y 데이터 사용
+    import math as _math
+
+    df_5d = yf.download(ticker, period="5d",  auto_adjust=True, progress=False)
+    df_1y = yf.download(ticker, period="1y",  auto_adjust=True, progress=False)
+
+    if df_5d.empty or df_1y.empty:
         return {"price": None, "volume": None,
                 "volume_ratio_20d": None, "near_52w_high": None, "breakout_score": 0.0}
-    close_col  = df["Close"].squeeze()
-    volume_col = df["Volume"].squeeze()
-    import math as _math
-    close   = float(close_col.iloc[-1])
-    volume  = float(volume_col.iloc[-1])
-    avg20   = float(volume_col.tail(20).mean())
-    high52  = float(close_col.max())
-    if _math.isnan(close): close = 0.0
-    if _math.isnan(volume): volume = 0.0
+
+    close_5d   = df_5d["Close"].squeeze()
+    close_1y   = df_1y["Close"].squeeze()
+    volume_1y  = df_1y["Volume"].squeeze()
+
+    close  = float(close_5d.iloc[-1])
+    volume = float(df_5d["Volume"].squeeze().iloc[-1])
+    avg20  = float(volume_1y.tail(20).mean())
+    high52 = float(close_1y.max())
+
+    # NaN 이면 None 반환 (0원 출력 방지)
+    if _math.isnan(close):
+        return {"price": None, "volume": None,
+                "volume_ratio_20d": None, "near_52w_high": None, "breakout_score": 0.0}
     if _math.isnan(avg20) or avg20 == 0: avg20 = 1.0
     if _math.isnan(high52): high52 = close
     vol_r   = volume / avg20 if avg20 > 0 else None
