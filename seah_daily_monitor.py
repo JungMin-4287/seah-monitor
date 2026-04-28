@@ -218,46 +218,101 @@ def score_wti() -> dict:
 
 
 # ─────────────────────────────────────────────
-# 지표 4. 한국산 강관 수출 경쟁력  (美HRC PPI)
+# 지표 4. 한국산 강관 對美 수출 볼륨  (US Census HS7306)
 # ─────────────────────────────────────────────
 
-def score_export_competitiveness() -> dict:
+def score_korean_pipe_exports() -> dict:
     """
-    분석글 핵심: 미국 열연 원재료가 한국의 ~2배 → 한국산 수출 구조적 우위.
-    트럼프 관세 50% → 미국 내 HRC 급등 → 한국산 수입이 오히려 더 유리한 역설.
-    미국 Steel PPI 상승 = 한국산 수출 경쟁력 강화 신호.
+    US Census Bureau API — 한국산 강관(HS7306) 대미 수입 금액 모멘텀.
+    단가 직접 계산은 불가(HS4 수량=0)이나 금액 추이 자체가 수출 볼륨 직접 proxy.
+    약 2개월 지연 (2월 데이터 → 4월 공개).
+    MoM + YoY 증감률로 채점.
     """
-    df          = fred_csv("WPU1017")
-    latest      = float(df["value"].iloc[-1])
-    latest_date = df["date"].iloc[-1].date().isoformat()
-    mom_1m      = pct_change_latest(df, 1)
-    mom_3m      = pct_change_latest(df, 3)
+    from datetime import date as _date
+
+    url = "https://api.census.gov/data/timeseries/intltrade/imports/hs"
+
+    def fetch_val(ym: str):
+        params = {
+            "get":         "GEN_VAL_MO",
+            "I_COMMODITY": "7306",
+            "CTY_CODE":    "5800",
+            "COMM_LVL":    "HS4",
+            "time":        ym,
+        }
+        try:
+            r = requests.get(url, params=params, timeout=12)
+            if r.status_code != 200:
+                return None
+            data = r.json()
+            if len(data) < 2:
+                return None
+            return int(data[1][0]) if data[1][0] else None
+        except Exception:
+            return None
+
+    # 최신 가용 월 탐색 (2~5개월 전)
+    today = _date.today()
+    latest_val, latest_ym = None, None
+    for delta in range(2, 6):
+        m = today.month - delta
+        y = today.year + (m - 1) // 12
+        m = ((m - 1) % 12) + 1
+        ym = f"{y}-{m:02d}"
+        v = fetch_val(ym)
+        if v is not None and v > 0:
+            latest_val, latest_ym = v, ym
+            break
+
+    if latest_val is None:
+        return {
+            "name":    "韓강관 對美수출볼륨",
+            "score":   0.25,
+            "comment": "Census API 데이터 없음 (2~4개월 지연)",
+        }
+
+    y, m     = int(latest_ym[:4]), int(latest_ym[5:])
+    prev_m   = m - 1 if m > 1 else 12
+    prev_y   = y if m > 1 else y - 1
+    ym_prev  = f"{prev_y}-{prev_m:02d}"
+    ym_yoy   = f"{y-1}-{m:02d}"
+
+    prev_val = fetch_val(ym_prev)
+    yoy_val  = fetch_val(ym_yoy)
+
+    mom = (latest_val / prev_val - 1) if (prev_val and prev_val > 0) else None
+    yoy = (latest_val / yoy_val  - 1) if (yoy_val  and yoy_val  > 0) else None
+
     score = 0.0
-    if mom_1m is not None:
-        if   mom_1m > 0.08: score += 0.50
-        elif mom_1m > 0.03: score += 0.35
-        elif mom_1m > 0:    score += 0.20
-    if mom_3m is not None:
-        if   mom_3m > 0.15: score += 0.50
-        elif mom_3m > 0.05: score += 0.30
-        elif mom_3m > 0:    score += 0.15
+    if mom is not None:
+        if   mom > 0.20: score += 0.40
+        elif mom > 0.05: score += 0.25
+        elif mom > 0:    score += 0.15
+    if yoy is not None:
+        if   yoy > 0.30: score += 0.60
+        elif yoy > 0.10: score += 0.40
+        elif yoy > 0:    score += 0.25
     score = min(round(score, 3), 1.0)
-    m1s = f"{mom_1m:+.1%}" if mom_1m is not None else "N/A"
-    m3s = f"{mom_3m:+.1%}" if mom_3m is not None else "N/A"
+
+    mom_s = f"{mom:+.1%}" if mom is not None else "N/A"
+    yoy_s = f"{yoy:+.1%}" if yoy is not None else "N/A"
+
     return {
-        "name":        "美HRC→韓수출경쟁력",
-        "score":       score,
-        "latest":      latest,
-        "latest_date": latest_date,
-        "mom_1m":      mom_1m,
-        "mom_3m":      mom_3m,
-        "comment":     f"US Steel PPI {latest:.1f} | 1M:{m1s} 3M:{m3s} 美HRC↑=韓수출경쟁력↑(관세역설). FRED WPU1017",
+        "name":       "韓강관 對美수출볼륨",
+        "score":      score,
+        "latest_ym":  latest_ym,
+        "latest_val": latest_val,
+        "mom":        mom,
+        "yoy":        yoy,
+        "comment": (
+            f"{latest_ym} ${latest_val/1e6:.1f}M | "
+            f"MoM:{mom_s} YoY:{yoy_s} "
+            f"(Census HS7306 한국산 강관 수입금액)"
+        ),
     }
 
 
-# ─────────────────────────────────────────────
-# 지표 5. Tenaris(TS) — OCTG 선행지표
-# ─────────────────────────────────────────────
+
 
 def score_tenaris() -> dict:
     """
@@ -623,7 +678,7 @@ def main():
     pipe        = score_pipe_price_proxy(cfg)
     rig         = parse_rig_count_from_news(state)
     wti         = score_wti()
-    export_comp = score_export_competitiveness()
+    export_comp = score_korean_pipe_exports()
     tenaris     = score_tenaris()
     seah_wind   = score_seah_wind(cfg)
     us_proxy    = score_us_proxy_stocks(cfg)
@@ -670,7 +725,7 @@ def main():
         "pipe_ppi":        "Pipe PPI",
         "rig_count":       "Rig(후행)",
         "wti_price":       "WTI유가",
-        "export_comp":     "韓수출경쟁력",
+        "export_comp":     "韓강관수출",
         "tenaris":         "TS선행",
         "seah_wind":       "SeAHWind★",
         "forward_eps":     "EPS/PER",

@@ -21,7 +21,7 @@ weights:
   pipe_ppi:        12   # FRED WPU10170652 (탄소강 파이프 PPI, 월간)
   rig_count:        6   # Baker Hughes 뉴스 — 후행지표, 의도적 최소화
   wti_price:       12   # FRED DCOILWTICO (WTI유가, 일간)
-  export_comp:     10   # FRED WPU1017 — 美HRC↑=韓수출경쟁력↑(관세역설)
+  export_comp:     10   # US Census HS7306 한국산 강관 對美수입 금액 MoM/YoY
   tenaris:         10   # Tenaris(TS NYSE) — OCTG 선행지표
   seah_wind:       12   # SeAH Wind 뉴스 모멘텀 ★ 핵심 신규
   forward_eps:     13   # 사이클자동판단 + SeAHWind ADD → Forward PER
