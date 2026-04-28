@@ -1,7 +1,15 @@
-ticker: "003030.KS"   # 세아제강지주 (지주사, 종가 ~250,000원 기준)
-forecast_eps: 45000  # 2026~27E EPS 기본 회복 시나리오 (북미 OCTG+해외법인 개선)
-                     # 25k=약한회복/PER10x  35k=기본회복/7.2x  45k=개선/5.6x
-                     # 55k=강세/4.6x  70k=슈퍼사이클/3.6x  ← 여기 숫자만 바꾸면 됨
+ticker: "003030.KS"   # 세아제강지주 (지주사)
+
+# forecast_eps는 더 이상 수동 입력하지 않습니다.
+# 매일 업황 지표(pipe_ppi, rig_count, seah_usa, adnoc, midstream, us_proxy) 평균 점수로
+# 사이클 단계를 자동 판단해 EPS를 결정합니다.
+#
+# 사이클 자동판단 기준:
+#   avg ≥ 0.70 → 슈퍼사이클  EPS 70,000원  (2022~23년 수준)
+#   avg ≥ 0.55 → 강세        EPS 55,000원
+#   avg ≥ 0.40 → 기본회복    EPS 45,000원  (북미 OCTG+해외법인 개선)
+#   avg ≥ 0.25 → 약한회복    EPS 35,000원
+#   avg  < 0.25→ 저점        EPS 25,000원
 
 weights:
   pipe_price_proxy: 15
