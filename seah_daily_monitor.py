@@ -269,24 +269,33 @@ def score_forward_eps(stock_price: float | None, forecast_eps: int):
 
     fwd_per = stock_price / forecast_eps
 
-    # 강관 업종 현실적 밸류에이션 기준
-    if fwd_per <= 8.0:
-        score = 1.0
+    # 사이클주 기준: 에너지 강관 회복 사이클에서 4~8배가 적정
+    # (현재 이익 기준 16.5배는 저점 이익 → Forward EPS로 판단해야 함)
+    if fwd_per <= 5.0:
+        score = 1.0   # 슈퍼사이클 진입 (EPS 50k+ 수준)
+    elif fwd_per <= 6.5:
+        score = 0.75  # 강세 (EPS 35~50k)
+    elif fwd_per <= 8.0:
+        score = 0.50  # 기본 회복 (EPS 25~35k)
     elif fwd_per <= 10.0:
-        score = 0.75
-    elif fwd_per <= 12.0:
-        score = 0.50
-    elif fwd_per <= 15.0:
-        score = 0.25
+        score = 0.25  # 약한 회복, 관망
     else:
-        score = 0.0
+        score = 0.0   # 저점 이익 구간, 사이클 미반영
+
+    # 시나리오 맵 (현재가 기준 자동 계산)
+    scenarios = {25000: "약한", 35000: "기본", 45000: "개선", 55000: "강세", 70000: "슈퍼"}
+    scen_str = "  ".join(
+        f"{label}={round(stock_price/eps, 1)}x"
+        for eps, label in scenarios.items()
+    )
 
     return {
         "name": "2026E EPS / Forward PER",
         "score": score,
-        "forward_per": round(fwd_per, 2),
+        "forward_per": round(fwd_per, 1),
         "forecast_eps": forecast_eps,
-        "comment": "EPS는 config.yaml 수동 입력. 증권사 컨센서스가 바뀌면 직접 수정. 강관 업종 기준 적용."
+        "scenarios": scen_str,
+        "comment": f"EPS {forecast_eps:,}원 가정 → PER {round(fwd_per,1)}배. 사이클주 기준 4~8배 정상. | {scen_str}"
     }
 
 
@@ -590,7 +599,8 @@ def main():
         f"지표          점수  가중  합산\n"
         f"{rows}"
         f"```\n"
-        f"Forward PER: {per_str}배\n"
+        f"Forward PER: {per_str}배 (EPS {cfg['forecast_eps']:,}원 가정)\n"
+        f"📐 시나리오: {eps.get('scenarios', '')}\n"
         f"📈 US proxy: {proxy_line}"
     )
     send_telegram_if_enabled(cfg, short_msg)
