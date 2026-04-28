@@ -257,45 +257,100 @@ def get_stock_signal(ticker: str):
     }
 
 
-def score_forward_eps(stock_price: float | None, forecast_eps: int):
+def determine_cycle_stage(cycle_signals: dict) -> dict:
+    """
+    비EPS 업황 지표들의 평균 점수로 에너지 강관 사이클 단계를 자동 판단.
+    매일 아침 신호 → 사이클 → EPS 시나리오를 자동 결정.
+
+    사이클 단계 기준:
+        avg ≥ 0.70 → 슈퍼사이클  EPS 70,000원 (2022~23년 수준 재현)
+        avg ≥ 0.55 → 강세        EPS 55,000원 (강한 CAPEX 사이클)
+        avg ≥ 0.40 → 기본회복    EPS 45,000원 (북미 OCTG+해외법인 개선)
+        avg ≥ 0.25 → 약한회복    EPS 35,000원 (부분 회복)
+        avg  < 0.25→ 저점        EPS 25,000원 (사이클 미반영)
+    """
+    EPS_MAP = [
+        (0.70, "슈퍼사이클", 70000),
+        (0.55, "강세",       55000),
+        (0.40, "기본회복",   45000),
+        (0.25, "약한회복",   35000),
+        (0.00, "저점",       25000),
+    ]
+
+    scores = [v.get("score", 0.0) for v in cycle_signals.values()]
+    avg = sum(scores) / len(scores) if scores else 0.0
+
+    label, eps = "저점", 25000
+    for threshold, lbl, e in EPS_MAP:
+        if avg >= threshold:
+            label, eps = lbl, e
+            break
+
+    return {
+        "label":           label,
+        "eps":             eps,
+        "avg_cycle_score": round(avg, 3),
+        "signal_count":    len(scores),
+    }
+
+
+def score_forward_eps(stock_price: float | None, cycle: dict) -> dict:
+    """
+    determine_cycle_stage() 결과를 받아 Forward PER 채점.
+    EPS는 사이클 자동 판단값 사용 — config.yaml 수동 입력 불필요.
+    """
+    forecast_eps = cycle["eps"]
+    cycle_label  = cycle["label"]
+    avg_score    = cycle["avg_cycle_score"]
+
     if not stock_price or forecast_eps <= 0:
         return {
-            "name": "2026E EPS / Forward PER",
+            "name": "Forward PER (사이클 자동판단)",
             "score": 0.0,
             "forward_per": None,
             "forecast_eps": forecast_eps,
-            "comment": "주가 또는 EPS 입력값 없음."
+            "cycle_label": cycle_label,
+            "comment": "주가 없음."
         }
 
     fwd_per = stock_price / forecast_eps
 
-    # 사이클주 기준: 에너지 강관 회복 사이클에서 4~8배가 적정
-    # (현재 이익 기준 16.5배는 저점 이익 → Forward EPS로 판단해야 함)
+    # 사이클주 PER 기준: 4~8배 정상, 5배 이하 = 강한 진입 시그널
     if fwd_per <= 5.0:
-        score = 1.0   # 슈퍼사이클 진입 (EPS 50k+ 수준)
+        score = 1.0
     elif fwd_per <= 6.5:
-        score = 0.75  # 강세 (EPS 35~50k)
+        score = 0.75
     elif fwd_per <= 8.0:
-        score = 0.50  # 기본 회복 (EPS 25~35k)
+        score = 0.50
     elif fwd_per <= 10.0:
-        score = 0.25  # 약한 회복, 관망
+        score = 0.25
     else:
-        score = 0.0   # 저점 이익 구간, 사이클 미반영
+        score = 0.0
 
-    # 시나리오 맵 (현재가 기준 자동 계산)
-    scenarios = {25000: "약한", 35000: "기본", 45000: "개선", 55000: "강세", 70000: "슈퍼"}
+    # 전체 시나리오 맵 (현재가 기준 자동 계산, 텔레그램 출력용)
     scen_str = "  ".join(
-        f"{label}={round(stock_price/eps, 1)}x"
-        for eps, label in scenarios.items()
+        f"{lbl}={round(stock_price/e, 1)}x"
+        for _, lbl, e in [
+            (0, "저점",    25000),
+            (0, "약한",    35000),
+            (0, "기본",    45000),
+            (0, "강세",    55000),
+            (0, "슈퍼",    70000),
+        ]
     )
 
     return {
-        "name": "2026E EPS / Forward PER",
+        "name": "Forward PER (사이클 자동판단)",
         "score": score,
         "forward_per": round(fwd_per, 1),
         "forecast_eps": forecast_eps,
+        "cycle_label": cycle_label,
+        "avg_cycle_score": avg_score,
         "scenarios": scen_str,
-        "comment": f"EPS {forecast_eps:,}원 가정 → PER {round(fwd_per,1)}배. 사이클주 기준 4~8배 정상. | {scen_str}"
+        "comment": (
+            f"[{cycle_label}] 업황점수 {avg_score:.2f} → EPS {forecast_eps:,}원 자동선택 "
+            f"→ PER {round(fwd_per,1)}배"
+        )
     }
 
 
@@ -503,8 +558,18 @@ def main():
         days=21
     )
 
-    eps = score_forward_eps(stock.get("price"), int(cfg["forecast_eps"]))
     us_proxy = score_us_proxy_stocks(cfg)
+
+    eps_cycle_inputs = {
+        "pipe_price_proxy": pipe,
+        "rig_count_proxy":  rig,
+        "seah_usa_proxy":   {"score": seah_score},
+        "adnoc_middle_east":{"score": adnoc_score},
+        "us_midstream_alaska":{"score": midstream_score},
+        "us_proxy_stocks":  us_proxy,
+    }
+    cycle = determine_cycle_stage(eps_cycle_inputs)
+    eps   = score_forward_eps(stock.get("price"), cycle)
 
     signals = {
         "pipe_price_proxy": pipe,
@@ -599,7 +664,9 @@ def main():
         f"지표          점수  가중  합산\n"
         f"{rows}"
         f"```\n"
-        f"Forward PER: {per_str}배 (EPS {cfg['forecast_eps']:,}원 가정)\n"
+        f"🔄 사이클판단: *{cycle['label']}* "
+        f"(업황점수 {cycle['avg_cycle_score']:.2f} → EPS {cycle['eps']:,}원 자동선택)\n"
+        f"Forward PER: {per_str}배\n"
         f"📐 시나리오: {eps.get('scenarios', '')}\n"
         f"📈 US proxy: {proxy_line}"
     )
