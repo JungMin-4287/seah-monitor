@@ -1,6 +1,6 @@
 # 세아제강지주 일일 체크 리포트
 
-- 생성시각: 2026-04-28 13:13:45
+- 생성시각: 2026-04-28 13:17:05
 - 티커: 003030.KS
 - 현재가: 250000.0
 - 20일 평균 대비 거래량 배율: 2.097662623269813
@@ -17,7 +17,7 @@
 | SeAH Steel USA 가동률 proxy | 10 | 0.25 | 2.5 | 직접 가동률 공시는 드묾. SeAH USA/OCTG/line pipe 뉴스로 proxy 추적. |
 | ADNOC·중동 수주 proxy | 15 | 0.5 | 7.5 | ADNOC, XRG, API pipeline, clad pipe 관련 뉴스 추적. |
 | 미국 미드스트림·Alaska LNG proxy | 10 | 0.25 | 2.5 | ET Hugh Brinson/Desert SW, Alaska LNG 739마일 API 5L 라인파이프 뉴스 추적. |
-| 2026E EPS / Forward PER | 15 | 0.75 | 11.25 | EPS는 config.yaml 수동 입력. 증권사 컨센서스가 바뀌면 직접 수정. 강관 업종 기준 적용. |
+| 2026E EPS / Forward PER | 15 | 0.75 | 11.25 | EPS 45,000원 가정 → PER 5.6배. 사이클주 기준 4~8배 정상. | 약한=10.0x  기본=7.1x  개선=5.6x  강세=4.5x  슈퍼=3.6x |
 | 주가 돌파 신호 | 15 | 1.0 | 15.0 | 52주 고가 98% 이상 + 거래량 2배 이상 동시 충족 시 1.0. 강관 테마 과열 경보로도 활용. |
 | 미국 에너지·강관 proxy 주가 | 10 | 1.0 | 10.0 | DNOW·TS·BKR·HAL·SLB·HP·PTEN 1M 수익률. 6/7 상승. |
 
@@ -72,9 +72,10 @@
 ### 2026E EPS / Forward PER
 - name: 2026E EPS / Forward PER
 - score: 0.75
-- forward_per: 10.0
-- forecast_eps: 25000
-- comment: EPS는 config.yaml 수동 입력. 증권사 컨센서스가 바뀌면 직접 수정. 강관 업종 기준 적용.
+- forward_per: 5.6
+- forecast_eps: 45000
+- scenarios: 약한=10.0x  기본=7.1x  개선=5.6x  강세=4.5x  슈퍼=3.6x
+- comment: EPS 45,000원 가정 → PER 5.6배. 사이클주 기준 4~8배 정상. | 약한=10.0x  기본=7.1x  개선=5.6x  강세=4.5x  슈퍼=3.6x
 
 ### 주가 돌파 신호
 - name: 주가 돌파 신호
