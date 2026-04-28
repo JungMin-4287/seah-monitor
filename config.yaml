@@ -2,13 +2,14 @@ ticker: "003030.KS"   # 세아제강지주 (지주사, 종가 ~250,000원 기준
 forecast_eps: 25000  # 2026E EPS 수동 입력. 증권사 컨센서스 바뀌면 여기만 수정.
 
 weights:
-  pipe_price_proxy: 18
-  rig_count_proxy: 12
-  seah_usa_proxy: 12
-  adnoc_middle_east: 18
+  pipe_price_proxy: 15
+  rig_count_proxy: 10
+  seah_usa_proxy: 10
+  adnoc_middle_east: 15
   us_midstream_alaska: 10
+  us_proxy_stocks: 10
   forward_eps: 15
-  breakout_signal: 15   # 신고가권 + 거래량 돌파 신호
+  breakout_signal: 15
 
 fred_series:
   carbon_pipe_ppi: "WPU10170652"
