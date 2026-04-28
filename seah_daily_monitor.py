@@ -229,10 +229,13 @@ def get_stock_signal(ticker: str):
             "breakout_score": 0.0,
         }
 
-    close = float(df["Close"].iloc[-1])
-    volume = float(df["Volume"].iloc[-1])
-    avg20 = float(df["Volume"].tail(20).mean())
-    high52 = float(df["Close"].max())
+    # yfinance 최신버전은 MultiIndex 반환 → squeeze()로 Series 변환
+    close_col  = df["Close"].squeeze()
+    volume_col = df["Volume"].squeeze()
+    close  = float(close_col.iloc[-1])
+    volume = float(volume_col.iloc[-1])
+    avg20  = float(volume_col.tail(20).mean())
+    high52 = float(close_col.max())
 
     volume_ratio = volume / avg20 if avg20 > 0 else None
     near_high = close >= high52 * 0.98
