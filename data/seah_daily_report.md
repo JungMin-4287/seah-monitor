@@ -1,11 +1,11 @@
 # 세아제강지주 일일 체크 리포트
 
-- 생성시각: 2026-04-28 12:58:40
+- 생성시각: 2026-04-28 13:06:34
 - 티커: 003030.KS
 - 현재가: 250000.0
 - 20일 평균 대비 거래량 배율: 2.097662623269813
 - 52주 고가권 여부: True
-- 종합점수: **61.8/100**
+- 종합점수: **64.8/100**
 - 판단: **우호적: 보유 우위, 돌파·거래량 확인**
 
 ## 지표별 점수
@@ -13,7 +13,7 @@
 | 지표 | 가중치 | 점수 | 가중점수 | 코멘트 |
 |---|---:|---:|---:|---|
 | 미국 Pipe/OCTG 가격 proxy | 18 | 1.0 | 18.0 | FRED/BLS carbon steel pipe PPI 기준. OCTG 직접 가격은 아님. |
-| 미국 Rig Count proxy | 12 | 0.25 | 3.0 | 자동 숫자 추출 실패. Baker Hughes 원자료 확인 권장. |
+| 미국 Rig Count proxy | 12 | 0.5 | 6.0 | Baker Hughes rig count 뉴스에서 숫자 추출. 수동 검증 권장. |
 | SeAH Steel USA 가동률 proxy | 12 | 0.25 | 3.0 | 직접 가동률 공시는 드묾. SeAH USA/OCTG/line pipe 뉴스로 proxy 추적. |
 | ADNOC·중동 수주 proxy | 18 | 0.5 | 9.0 | ADNOC, XRG, API pipeline, clad pipe 관련 뉴스 추적. |
 | 미국 미드스트림·Alaska LNG proxy | 10 | 0.25 | 2.5 | ET Hugh Brinson/Desert SW, Alaska LNG 739마일 API 5L 라인파이프 뉴스 추적. |
@@ -34,10 +34,10 @@
 
 ### 미국 Rig Count proxy
 - name: 미국 Rig Count proxy
-- score: 0.25
-- latest: None
+- score: 0.5
+- latest: 544
 - previous: None
-- comment: 자동 숫자 추출 실패. Baker Hughes 원자료 확인 권장.
+- comment: Baker Hughes rig count 뉴스에서 숫자 추출. 수동 검증 권장.
 
 ### SeAH Steel USA 가동률 proxy
 - name: SeAH Steel USA 가동률 proxy
