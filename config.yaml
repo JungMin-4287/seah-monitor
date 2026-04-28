@@ -40,7 +40,7 @@ news_queries:
     - 'ADNOC oil gas project line pipe 2026'
 
   # 아프리카 프록시 → 미국 미드스트림/알래스카 LNG로 교체
-  # (실제 세아제강 자본배분 본류는 ET 미드스트림 CAPEX + Alaska LNG 라인파이프)
+  # (실제 세아제강지주(003030) 자본배분 본류는 ET 미드스트림 CAPEX + Alaska LNG 라인파이프)
   us_midstream_alaska:
     - '"Energy Transfer" "line pipe" pipeline 2026 CAPEX'
     - '"Hugh Brinson Pipeline" Texas steel'
