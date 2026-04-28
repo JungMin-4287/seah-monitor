@@ -35,15 +35,35 @@ fred_series:
 
 news_queries:
   seah_wind:
+    # ── SeAH Wind 직접 뉴스
     - '"SeAH Wind" monopile offshore contract'
     - '"SeAH Wind" Teesside order award'
-    - 'UK offshore wind AR8 CfD substructure monopile'
-    - 'UK offshore wind "local content" CIB bonus'
-    - '"SeAH Wind" foundation supply'
-    - 'RWE "Nordseecluster" monopile substructure'
-    - 'UK offshore wind monopile order 2026'
+    - '"SeAH Wind" foundation supply capacity'
+
+    # ── 영국 해상풍력 정책·CAPEX
+    - 'UK offshore wind AR8 CfD auction 2026'
+    - 'UK offshore wind "local content" CIB bonus award'
+    - 'UK offshore wind CAPEX investment expansion'
+    - 'UK offshore wind policy government 2026'
+    - 'RWE "Nordseecluster" monopile substructure contract'
+    - 'UK offshore wind monopile order foundation 2026'
+
+    # ── 대만 해상풍력 (세아윈드 수출 후보 시장)
+    - 'Taiwan offshore wind monopile substructure order'
+    - 'Taiwan offshore wind CAPEX 2026 contract'
+    - 'Taiwan offshore wind foundation supply'
+
+    # ── 한국 해상풍력 (국내 시장)
+    - '한국 해상풍력 모노파일 하부구조물 수주'
+    - 'Korea offshore wind monopile substructure 2026'
+    - '해상풍력 특별법 CfD 하부구조물'
+
+    # ── 글로벌 해상풍력 CAPEX 방향성
+    - 'offshore wind CAPEX investment record 2026'
+    - 'offshore wind monopile demand supply 2026'
 
 positive_keywords:
+  # 강관/파이프라인
   - "contract"
   - "supply"
   - "FID"
@@ -57,13 +77,26 @@ positive_keywords:
   - "CAPEX"
   - "midstream"
   - "expansion"
+  # 해상풍력
   - "monopile"
   - "offshore wind"
   - "foundation"
   - "CfD"
   - "AR8"
+  - "substructure"
+  - "local content"
+  - "turbine"
+  - "installation"
+  - "record"
+  - "investment"
+  - "approval"
+  - "permit"
+  - "auction"
+  - "gigawatt"
+  - "GW"
 
 negative_keywords:
+  # 강관/파이프라인
   - "delay"
   - "cancel"
   - "postpone"
@@ -72,6 +105,14 @@ negative_keywords:
   - "shutdown"
   - "tariff"
   - "import duty"
+  # 해상풍력
+  - "project cancelled"
+  - "wind farm scrapped"
+  - "subsidy cut"
+  - "auction failed"
+  - "no bids"
+  - "cost overrun"
+  - "bankrupt"
 
 telegram:
   enabled: true
