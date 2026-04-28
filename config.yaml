@@ -12,14 +12,14 @@ ticker: "003030.KS"   # 세아제강지주 (지주사)
 #   avg  < 0.25→ 저점        EPS 25,000원
 
 weights:
-  pipe_price_proxy: 15
-  rig_count_proxy: 10
-  seah_usa_proxy: 10
-  adnoc_middle_east: 15
-  us_midstream_alaska: 10
-  us_proxy_stocks: 10
-  forward_eps: 15
-  breakout_signal: 15
+  pipe_price_proxy: 15   # FRED WPU10170652 (탄소강 파이프 PPI, 월간)
+  rig_count_proxy:  10   # Baker Hughes 뉴스 파싱
+  henry_hub:        10   # FRED DHHNGSP (Henry Hub 천연가스, 일간)
+  wti_price:        15   # FRED DCOILWTICO (WTI 유가, 일간)
+  steel_ppi:        10   # FRED WPU1017 (철강 밀 제품 PPI, 월간)
+  us_proxy_stocks:  10   # DNOW·TS·BKR·HAL·SLB·HP·PTEN (1W/1M)
+  forward_eps:      15   # 사이클 자동판단 → EPS → Forward PER
+  breakout_signal:  15   # yfinance 003030.KS (52주 고가권 + 거래량)
 
 fred_series:
   carbon_pipe_ppi: "WPU10170652"
