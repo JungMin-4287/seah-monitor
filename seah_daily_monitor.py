@@ -357,7 +357,9 @@ def score_forward_eps(stock_price: float | None, cycle: dict) -> dict:
 def score_us_proxy_stocks(cfg):
     """
     미국 에너지·강관 업황 proxy 주가 모멘텀 채점.
-    DNOW, TS, BKR, HAL, SLB, HP, PTEN 1개월 수익률 기준.
+    1W(5거래일): 단기 이벤트 반응 포착
+    1M(21거래일): 중기 사이클 트렌드 판단
+    종합점수 = 1W × 0.4 + 1M × 0.6
     """
     tickers = {
         "DNOW": "PVF 유통 proxy",
@@ -370,52 +372,77 @@ def score_us_proxy_stocks(cfg):
     }
 
     results = {}
-    returns = []
+    returns_1w, returns_1m = [], []
 
     for ticker, desc in tickers.items():
         try:
             df = yf.download(ticker, period="3mo", auto_adjust=True, progress=False)
             if df.empty:
-                results[ticker] = {"return_1m": None, "desc": desc}
+                results[ticker] = {"ret_1w": None, "ret_1m": None, "desc": desc}
                 continue
-            close = df["Close"].squeeze()
-            latest   = float(close.iloc[-1])
+            close     = df["Close"].squeeze()
+            latest    = float(close.iloc[-1])
+            week_ago  = float(close.iloc[-6])  if len(close) >= 6  else float(close.iloc[0])
             month_ago = float(close.iloc[-21]) if len(close) >= 21 else float(close.iloc[0])
-            ret = (latest / month_ago) - 1
-            results[ticker] = {"return_1m": round(ret, 4), "price": round(latest, 2), "desc": desc}
-            returns.append(ret)
-        except Exception:
-            results[ticker] = {"return_1m": None, "desc": desc}
 
-    if not returns:
-        score = 0.25
-    else:
+            ret_1w = (latest / week_ago)  - 1
+            ret_1m = (latest / month_ago) - 1
+
+            results[ticker] = {
+                "ret_1w": round(ret_1w, 4),
+                "ret_1m": round(ret_1m, 4),
+                "price":  round(latest, 2),
+                "desc":   desc,
+            }
+            returns_1w.append(ret_1w)
+            returns_1m.append(ret_1m)
+        except Exception:
+            results[ticker] = {"ret_1w": None, "ret_1m": None, "desc": desc}
+
+    def period_score(returns):
+        if not returns:
+            return 0.25
         pos_ratio = sum(1 for r in returns if r > 0) / len(returns)
         avg_ret   = sum(returns) / len(returns)
         if pos_ratio >= 0.71 and avg_ret > 0.03:
-            score = 1.0
+            return 1.0
         elif pos_ratio >= 0.57:
-            score = 0.75
+            return 0.75
         elif pos_ratio >= 0.43:
-            score = 0.50
+            return 0.50
         elif pos_ratio >= 0.29:
-            score = 0.25
+            return 0.25
         else:
-            score = 0.0
+            return 0.0
 
-    pos_cnt = sum(1 for r in returns if r > 0)
-    ticker_lines = ", ".join(
-        f"{t}:{v['return_1m']:+.1%}" if v["return_1m"] is not None else f"{t}:N/A"
+    score_1w = period_score(returns_1w)
+    score_1m = period_score(returns_1m)
+    score    = round(score_1w * 0.4 + score_1m * 0.6, 3)
+
+    n      = len(returns_1w)
+    pos_1w = sum(1 for r in returns_1w if r > 0)
+    pos_1m = sum(1 for r in returns_1m if r > 0)
+
+    # 텔레그램: 종목별 1W/1M 수익률 (예: DNOW:+2%/+5%)
+    ticker_lines = "  ".join(
+        f"{t}:{v['ret_1w']:+.0%}/{v['ret_1m']:+.0%}"
+        if v["ret_1w"] is not None else f"{t}:N/A"
         for t, v in results.items()
     )
 
     return {
         "name": "미국 에너지·강관 proxy 주가",
         "score": score,
-        "positive_count": pos_cnt,
-        "total_count": len(returns),
+        "score_1w": score_1w,
+        "score_1m": score_1m,
+        "positive_1w": f"{pos_1w}/{n}",
+        "positive_1m": f"{pos_1m}/{n}",
         "ticker_returns": ticker_lines,
-        "comment": f"DNOW·TS·BKR·HAL·SLB·HP·PTEN 1M 수익률. {pos_cnt}/{len(returns)} 상승."
+        "comment": (
+            f"1W {pos_1w}/{n}상승(점수 {score_1w}) / "
+            f"1M {pos_1m}/{n}상승(점수 {score_1m}) → "
+            f"종합 {score}"
+        )
     }
 
 
