@@ -480,12 +480,28 @@ def main():
 
     print(report)
 
+    # 지표별 점수 한 줄씩 조립
+    rows = ""
+    for key, sig in signals.items():
+        d = score_detail[key]
+        name  = sig.get("name", key)[:18]          # 너무 길면 자름
+        rows += f"  {name:<20} {d['score_0_1']:.2f} × {d['weight']:>2} = {d['weighted']:.1f}\n"
+
+    price_str = f"{int(stock.get('price', 0)):,}" if stock.get('price') else "N/A"
+    vol_str   = f"{stock.get('volume_ratio_20d', 0):.2f}x" if stock.get('volume_ratio_20d') else "N/A"
+    per_str   = str(eps.get('forward_per', 'N/A'))
+
     short_msg = (
-        f"세아제강지주 일일점수: {score_total}/100\n"
-        f"판단: {rating(score_total)}\n"
-        f"현재가: {stock.get('price')}\n"
-        f"거래량배율: {stock.get('volume_ratio_20d')}\n"
-        f"Forward PER: {eps.get('forward_per')}"
+        f"📊 세아제강지주(003030) 일일 모니터\n"
+        f"━━━━━━━━━━━━━━━━━━\n"
+        f"종합점수: *{score_total}/100*  |  {rating(score_total).split(':')[0]}\n"
+        f"현재가: {price_str}원  |  거래량배율: {vol_str}\n"
+        f"━━━━━━━━━━━━━━━━━━\n"
+        f"```\n"
+        f"지표                     점수 가중치  합계\n"
+        f"{rows}"
+        f"```\n"
+        f"Forward PER: {per_str}배"
     )
     send_telegram_if_enabled(cfg, short_msg)
 
