@@ -138,6 +138,7 @@ def score_fred_commodity(series_id: str, name: str, comment_suffix: str = "") ->
     }
 
 
+def google_news(query: str, days: int = 14, lang="en-US", country="US") -> list[dict]:
     url = (
         "https://news.google.com/rss/search?"
         f"q={quote_plus(query)}&hl={lang}&gl={country}&ceid={country}:en"
