@@ -1,4 +1,4 @@
-name: Seah Daily Monitor
+name: 세아제강지주(003030) 일일 모니터
 
 on:
   schedule:
@@ -36,5 +36,5 @@ jobs:
           git config user.name "seah-monitor-bot"
           git config user.email "bot@example.com"
           git add data/seah_daily_report.md data/seah_daily_history.csv data/state.json
-          git commit -m "Update Seah daily monitor report" || echo "No changes"
+          git commit -m "세아제강지주(003030) 일일 모니터 리포트 업데이트" || echo "No changes"
           git push
