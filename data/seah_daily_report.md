@@ -1,53 +1,49 @@
-# 세아제강지주 일일 체크 리포트
+# 세아제강지주(003030) 일일 체크 리포트
 
-- 생성시각: 2026-04-28 14:27:53
-- 티커: 003030.KS
-- 현재가: 250000.0
-- 20일 평균 대비 거래량 배율: 2.097662623269813
-- 52주 고가권 여부: True
-- 종합점수: **73.5/100**
-- 판단: **우호적: 보유 우위, 돌파·거래량 확인**
+- 생성시각: 2026-04-28 15:45:35
+- 현재가: 0.0
+- 거래량 배율(20일): 2.097662623269813
+- 52주 고가권: False
+- 사이클 판단: [슈퍼사이클] 업황점수 0.725
+- 본업EPS 90,000 + SeAHWind ADD 10,000 = 100,000원
+- Forward PER: None배
+- 종합점수: **59.5/100**
+- 판단: **중립: 모멘텀 확인 필요**
 
 ## 지표별 점수
 
 | 지표 | 가중치 | 점수 | 가중점수 | 코멘트 |
 |---|---:|---:|---:|---|
-| 미국 Pipe/OCTG 가격 proxy | 15 | 1.0 | 15.0 | FRED/BLS carbon steel pipe PPI 기준. OCTG 직접 가격은 아님. |
-| 미국 Rig Count proxy | 10 | 0.5 | 5.0 | Baker Hughes rig count 뉴스에서 숫자 추출. 수동 검증 권장. |
-| Henry Hub 천연가스 | 10 | 0.0 | 0.0 | 2.81 | 1M:-9.9%  3M:-6.3%  E&P capex 선행지표 | 상승=OCTG 수요↑ |
-| WTI 유가 | 15 | 0.5 | 7.5 | 91.06 | 1M:-5.3%  3M:+49.6%  중동 프로젝트 드라이버 | 상승=발주↑ |
-| 철강 PPI (Steel mill) | 10 | 0.6 | 6.0 | 331.67 | 1M:+2.1%  3M:+6.2%  파이프라인 수요 proxy | 상승=강관 수요↑ |
-| Forward PER (사이클 자동판단) | 15 | 1.0 | 15.0 | [강세] 업황점수 0.60 → EPS 55,000원 자동선택 → PER 4.5배 |
-| 주가 돌파 신호 | 15 | 1.0 | 15.0 | 52주 고가 98% 이상 + 거래량 2배 이상 동시 충족 시 1.0. |
-| 미국 에너지·강관 proxy 주가 | 10 | 1.0 | 10.0 | 1W 7/7상승(점수 1.0) / 1M 7/7상승(점수 1.0) → 종합 1.0 |
+| Pipe/OCTG PPI | 12 | 1.0 | 12.0 | 170.5 | 1M:+1.1% 3M:+2.8% 6M:+5.1% (FRED WPU10170652) |
+| Rig Count(후행) | 6 | 0.5 | 3.0 | 현재 544기 / 전주 대비 0기. ※후행지표(리그당생산량 24배↑) — 가중치 최소. |
+| WTI 유가 | 12 | 0.5 | 6.0 | $91.1 | 1M:-5.3% 3M:+49.6% (FRED DCOILWTICO, 일간) |
+| 美HRC→韓수출경쟁력 | 10 | 0.5 | 5.0 | US Steel PPI 331.7 | 1M:+2.1% 3M:+6.2% 美HRC↑=韓수출경쟁력↑(관세역설). FRED WPU1017 |
+| Tenaris(TS) OCTG선행 | 10 | 0.85 | 8.5 | $63.17 | 1W:+4.0% 1M:+10.4% 3M:+42.3% 세계1위 OCTG peer, 가격선행지표 |
+| SeAH Wind ★ | 12 | 0.5 | 6.0 | 긍정2/부정0건(21일) | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. 풀캐파ADD OP 1,800~2,400억(77%연결) |
+| Forward EPS/PER | 13 | 0.0 | 0.0 | [슈퍼사이클] 업황0.72 → 본업90,000+Wind10,000=100,000원 → PER N/A배 |
+| 주가 돌파 신호 | 12 | 0.5 | 6.0 | 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0 |
+| US Proxy 주가군 | 13 | 1.0 | 13.0 | 1W 7/7상승(1.0) / 1M 7/7상승(1.0) → 1.0 |
+
+## 시나리오
+
 
 ## 원자료
 
-### 미국 Pipe/OCTG 가격 proxy
-- name: 미국 Pipe/OCTG 가격 proxy
+### Pipe/OCTG PPI
+- name: Pipe/OCTG PPI
 - score: 1.0
 - latest: 170.455
 - latest_date: 2026-03-01
 - mom_1m: 0.010852483320978656
 - mom_3m: 0.0277722506617466
-- mom_6m: 0.05144496190975545
-- comment: FRED/BLS carbon steel pipe PPI 기준. OCTG 직접 가격은 아님.
+- comment: 170.5 | 1M:+1.1% 3M:+2.8% 6M:+5.1% (FRED WPU10170652)
 
-### 미국 Rig Count proxy
-- name: 미국 Rig Count proxy
+### Rig Count(후행)
+- name: Rig Count(후행)
 - score: 0.5
 - latest: 544
 - previous: 544
-- comment: Baker Hughes rig count 뉴스에서 숫자 추출. 수동 검증 권장.
-
-### Henry Hub 천연가스
-- name: Henry Hub 천연가스
-- score: 0.0
-- latest: 2.81
-- latest_date: 2026-04-20
-- mom_1m: -0.09935897435897434
-- mom_3m: -0.06333333333333335
-- comment: 2.81 | 1M:-9.9%  3M:-6.3%  E&P capex 선행지표 | 상승=OCTG 수요↑
+- comment: 현재 544기 / 전주 대비 0기. ※후행지표(리그당생산량 24배↑) — 가중치 최소.
 
 ### WTI 유가
 - name: WTI 유가
@@ -56,40 +52,62 @@
 - latest_date: 2026-04-20
 - mom_1m: -0.05264253017062004
 - mom_3m: 0.4964667214461791
-- comment: 91.06 | 1M:-5.3%  3M:+49.6%  중동 프로젝트 드라이버 | 상승=발주↑
+- comment: $91.1 | 1M:-5.3% 3M:+49.6% (FRED DCOILWTICO, 일간)
 
-### 철강 PPI (Steel mill)
-- name: 철강 PPI (Steel mill)
-- score: 0.6
+### 美HRC→韓수출경쟁력
+- name: 美HRC→韓수출경쟁력
+- score: 0.5
 - latest: 331.671
 - latest_date: 2026-03-01
 - mom_1m: 0.020566976525214775
 - mom_3m: 0.06165295605134258
-- comment: 331.67 | 1M:+2.1%  3M:+6.2%  파이프라인 수요 proxy | 상승=강관 수요↑
+- comment: US Steel PPI 331.7 | 1M:+2.1% 3M:+6.2% 美HRC↑=韓수출경쟁력↑(관세역설). FRED WPU1017
 
-### Forward PER (사이클 자동판단)
-- name: Forward PER (사이클 자동판단)
-- score: 1.0
-- forward_per: 4.5
-- forecast_eps: 55000
-- cycle_label: 강세
-- avg_cycle_score: 0.6
-- scenarios: 저점=10.0x  약한=7.1x  기본=5.6x  강세=4.5x  슈퍼=3.6x
-- comment: [강세] 업황점수 0.60 → EPS 55,000원 자동선택 → PER 4.5배
+### Tenaris(TS) OCTG선행
+- name: Tenaris(TS) OCTG선행
+- score: 0.85
+- price: 63.17
+- ret_1w: 0.0398
+- ret_1m: 0.1043
+- ret_3m: 0.4226
+- latest_date: 2026-04-28
+- comment: $63.17 | 1W:+4.0% 1M:+10.4% 3M:+42.3% 세계1위 OCTG peer, 가격선행지표
+
+### SeAH Wind ★
+- name: SeAH Wind ★
+- score: 0.5
+- positive_news_count: 2
+- negative_news_count: 0
+- comment: 긍정2/부정0건(21일) | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. 풀캐파ADD OP 1,800~2,400억(77%연결)
+- 뉴스:
+  - News Content Hub - Westwood says China ‘reshaping’ the market for offshore wind foundations - rivieramm.com
+  - Van Oord Installs Monopiles for Poland’s First Offshore Wind Farm - Offshore Engineer Magazine
+
+### Forward EPS/PER
+- name: Forward EPS/PER
+- score: 0.0
+- cycle_label: 슈퍼사이클
+- avg_cycle_score: 0.725
+- base_eps: 90000
+- wind_add_eps: 10000
+- total_eps: 100000
+- forward_per: None
+- scenarios: 
+- comment: [슈퍼사이클] 업황0.72 → 본업90,000+Wind10,000=100,000원 → PER N/A배
 
 ### 주가 돌파 신호
 - name: 주가 돌파 신호
-- score: 1.0
-- near_52w_high: True
+- score: 0.5
+- near_52w_high: False
 - volume_ratio_20d: 2.097662623269813
-- comment: 52주 고가 98% 이상 + 거래량 2배 이상 동시 충족 시 1.0.
+- comment: 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0
 
-### 미국 에너지·강관 proxy 주가
-- name: 미국 에너지·강관 proxy 주가
+### US Proxy 주가군
+- name: US Proxy 주가군
 - score: 1.0
 - score_1w: 1.0
 - score_1m: 1.0
 - positive_1w: 7/7
 - positive_1m: 7/7
-- ticker_returns: DNOW:+8%/+11%  TS:+4%/+10%  BKR:+14%/+13%  HAL:+6%/+3%  SLB:+6%/+9%  HP:+9%/+8%  PTEN:+11%/+6%
-- comment: 1W 7/7상승(점수 1.0) / 1M 7/7상승(점수 1.0) → 종합 1.0
+- ticker_returns: DNOW:+8%/+11%  TS:+4%/+10%  BKR:+14%/+13%  HAL:+7%/+4%  SLB:+6%/+9%  HP:+10%/+9%  PTEN:+12%/+7%
+- comment: 1W 7/7상승(1.0) / 1M 7/7상승(1.0) → 1.0
