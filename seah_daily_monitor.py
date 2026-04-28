@@ -736,15 +736,30 @@ def build_report(cfg, signals, score_total, score_detail, stock, eps_info):
 
 def send_telegram_if_enabled(cfg, text):
     tg = cfg.get("telegram", {})
-    if not tg.get("enabled"): return
+    if not tg.get("enabled"):
+        print("[텔레그램] enabled=false — 전송 skip")
+        return
     token   = os.getenv(tg.get("bot_token_env", "TELEGRAM_BOT_TOKEN"))
     chat_id = os.getenv(tg.get("chat_id_env",   "TELEGRAM_CHAT_ID"))
-    if not token or not chat_id: return
-    requests.post(
-        f"https://api.telegram.org/bot{token}/sendMessage",
-        json={"chat_id": chat_id, "text": text[:3500], "parse_mode": "Markdown"},
-        timeout=10,
-    )
+    if not token:
+        print("[텔레그램] TELEGRAM_BOT_TOKEN 환경변수 없음 — 전송 실패")
+        return
+    if not chat_id:
+        print("[텔레그램] TELEGRAM_CHAT_ID 환경변수 없음 — 전송 실패")
+        return
+    try:
+        resp = requests.post(
+            f"https://api.telegram.org/bot{token}/sendMessage",
+            json={"chat_id": chat_id, "text": text[:3500], "parse_mode": "Markdown"},
+            timeout=10,
+        )
+        result = resp.json()
+        if result.get("ok"):
+            print(f"[텔레그램] 전송 성공 — message_id: {result['result']['message_id']}")
+        else:
+            print(f"[텔레그램] 전송 실패 — {result}")
+    except Exception as e:
+        print(f"[텔레그램] 예외 발생 — {e}")
 
 
 # ─────────────────────────────────────────────
