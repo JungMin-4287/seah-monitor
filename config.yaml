@@ -1,0 +1,94 @@
+# 세아제강지주 일일 모니터링 설정
+# ticker는 Yahoo Finance 기준: 세아제강지주 = 003030.KS
+
+ticker: "003030.KS"
+company_name: "세아제강지주"
+
+# 2026E EPS는 직접 조정하세요.
+# 예: 45,000원 = 기본 회복, 50,000원 = EPS 5만원대 가시화, 70,000원 = 강한 사이클
+forecast_eps: 50000
+
+# yfinance가 한국 주가를 못 가져오거나 장중 가격을 직접 반영하고 싶을 때 입력.
+# 예: 252000
+stock_price_override: null
+
+# 점수 가중치 합계는 100 권장
+weights:
+  pipe_price_proxy: 20
+  rig_count_proxy: 15
+  seah_usa_proxy: 15
+  adnoc_middle_east: 20
+  africa_projects: 15
+  forward_eps: 10
+  stock_trend: 5
+
+# 무료 가격 proxy. 실제 OCTG spot price는 Argus/Pipe Logix 등 유료 데이터가 정석.
+fred_series:
+  carbon_pipe_ppi: "WPU10170652"       # PPI: Steel pipe and tube, carbon
+  steel_pipe_tube_ppi: "WPU101706"     # PPI: Steel pipe and tube broader proxy
+
+news_days:
+  seah_usa_proxy: 21
+  adnoc_middle_east: 21
+  africa_projects: 30
+
+news_queries:
+  seah_usa_proxy:
+    - '"SeAH Steel USA" OCTG'
+    - '"SeAH Steel USA" "line pipe"'
+    - '"SeAH Steel USA" capacity'
+    - '"SeAH Steel USA" utilization'
+    - '"SeAH Steel USA" "oil country tubular"'
+  adnoc_middle_east:
+    - 'ADNOC SeAH Steel API pipeline'
+    - 'ADNOC XRG US gas pipeline'
+    - 'ADNOC Hail Ghasha clad pipe'
+    - 'ADNOC oil gas project line pipe'
+    - 'ADNOC Upper Zakum pipeline pipe'
+  africa_projects:
+    - 'Rovuma LNG FID pipe procurement'
+    - 'Mozambique LNG restart procurement pipe'
+    - 'Namibia Venus FPSO pipe'
+    - 'Galp Mopane FPSO pipe'
+    - 'Nigeria LNG Train 8 FID pipe'
+    - 'TotalEnergies Venus Namibia FID FPSO'
+    - 'Exxon Rovuma LNG FID 2026'
+
+positive_keywords:
+  - "contract"
+  - "supply"
+  - "supplier"
+  - "award"
+  - "awarded"
+  - "FID"
+  - "restart"
+  - "expansion"
+  - "procurement"
+  - "capacity"
+  - "line pipe"
+  - "OCTG"
+  - "casing"
+  - "tubing"
+  - "clad pipe"
+  - "pipeline"
+  - "FPSO"
+  - "LNG"
+
+negative_keywords:
+  - "delay"
+  - "delayed"
+  - "cancel"
+  - "cancelled"
+  - "postpone"
+  - "postponed"
+  - "force majeure"
+  - "sanction"
+  - "security risk"
+  - "shutdown"
+  - "suspended"
+
+# 텔레그램 알림을 쓰려면 enabled: true로 바꾸고 GitHub Secrets에 값을 넣으세요.
+telegram:
+  enabled: false
+  bot_token_env: "TELEGRAM_BOT_TOKEN"
+  chat_id_env: "TELEGRAM_CHAT_ID"
