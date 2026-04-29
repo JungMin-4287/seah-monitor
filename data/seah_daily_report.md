@@ -1,13 +1,13 @@
 # 세아제강지주(003030) 일일 체크 리포트
 
-- 생성시각: 2026-04-28 23:49:22
-- 현재가: 250000.0
-- 거래량 배율(20일): 2.0634843047051104
-- 52주 고가권: True
-- 사이클 판단: [슈퍼사이클] 업황점수 0.764
+- 생성시각: 2026-04-29 23:15:51
+- 현재가: 245500.0
+- 거래량 배율(20일): 1.464105562423433
+- 52주 고가권: False
+- 사이클 판단: [슈퍼사이클] 업황점수 0.836
 - 본업EPS 90,000 + SeAHWind ADD 16,000 = 106,000원
-- Forward PER: 2.4배
-- 종합점수: **87.0/100**
+- Forward PER: 2.3배
+- 종합점수: **81.0/100**
 - 판단: **강세 확인: 추세추종 보유/추가 검토**
 
 ## 지표별 점수
@@ -16,17 +16,17 @@
 |---|---:|---:|---:|---|
 | Pipe/OCTG PPI | 10 | 1.0 | 10.0 | 170.5 | 1M:+1.1% 3M:+2.8% 6M:+5.1% (FRED WPU10170652) |
 | Rig Count(후행) | 5 | 0.5 | 2.5 | 현재 544기 / 전주 대비 0기. ※후행지표(리그당생산량 24배↑) — 가중치 최소. |
-| WTI 유가 | 10 | 0.5 | 5.0 | $91.1 | 1M:-5.3% 3M:+49.6% (FRED DCOILWTICO, 일간) |
+| WTI 유가 | 10 | 1.0 | 10.0 | $99.9 | 1M:+9.2% 3M:+65.4% (FRED DCOILWTICO, 일간) |
 | 韓강관 對美수출볼륨 | 9 | 1.0 | 9.0 | 2026-02 $81.6M | MoM:+120.0% YoY:+105.1% (Census HS7306 한국산 강관 수입금액) |
 | 美Steel PPI | 8 | 0.5 | 4.0 | WPU1017=331.7 | 1M:+2.1% 3M:+6.2% (美HRC↑=韓수출경쟁력↑, FRED 월간) |
-| Tenaris(TS) OCTG선행 | 10 | 0.85 | 8.5 | $63.15 | 1W:+4.0% 1M:+10.4% 3M:+42.2% 세계1위 OCTG peer, 가격선행지표 |
-| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정39/부정8건(21일) [영문10+한국어13건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
-| Forward EPS/PER | 13 | 1.0 | 13.0 | [슈퍼사이클] 업황0.76 → 본업90,000+Wind16,000=106,000원 → PER 2.4배 |
-| 주가 돌파 신호 | 11 | 1.0 | 11.0 | 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0 |
+| Tenaris(TS) OCTG선행 | 10 | 0.85 | 8.5 | $63.54 | 1W:+2.2% 1M:+9.2% 3M:+41.0% 세계1위 OCTG peer, 가격선행지표 |
+| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정36/부정7건(21일) [영문10+한국어12건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
+| Forward EPS/PER | 13 | 1.0 | 13.0 | [슈퍼사이클] 업황0.84 → 본업90,000+Wind16,000=106,000원 → PER 2.3배 |
+| 주가 돌파 신호 | 11 | 0.0 | 0.0 | 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0 |
 | US Proxy 주가군 | 12 | 1.0 | 12.0 | 1W 7/7상승(1.0) / 1M 7/7상승(1.0) → 1.0 |
 
 ## 시나리오
-저점=16.7x  약한=8.3x  기본=5.6x  강세=3.8x  슈퍼=2.8x
+저점=16.4x  약한=8.2x  기본=5.5x  강세=3.8x  슈퍼=2.7x
 
 ## 원자료
 
@@ -48,12 +48,12 @@
 
 ### WTI 유가
 - name: WTI 유가
-- score: 0.5
-- latest: 91.06
-- latest_date: 2026-04-20
-- mom_1m: -0.05264253017062004
-- mom_3m: 0.4964667214461791
-- comment: $91.1 | 1M:-5.3% 3M:+49.6% (FRED DCOILWTICO, 일간)
+- score: 1.0
+- latest: 99.89
+- latest_date: 2026-04-27
+- mom_1m: 0.09157469129056928
+- mom_3m: 0.6543557469360715
+- comment: $99.9 | 1M:+9.2% 3M:+65.4% (FRED DCOILWTICO, 일간)
 
 ### 韓강관 對美수출볼륨
 - name: 韓강관 對美수출볼륨
@@ -76,45 +76,45 @@
 ### Tenaris(TS) OCTG선행
 - name: Tenaris(TS) OCTG선행
 - score: 0.85
-- price: 63.15
-- ret_1w: 0.0395
-- ret_1m: 0.104
-- ret_3m: 0.4223
-- latest_date: 2026-04-28
-- comment: $63.15 | 1W:+4.0% 1M:+10.4% 3M:+42.2% 세계1위 OCTG peer, 가격선행지표
+- price: 63.54
+- ret_1w: 0.0222
+- ret_1m: 0.0921
+- ret_3m: 0.4101
+- latest_date: 2026-04-29
+- comment: $63.54 | 1W:+2.2% 1M:+9.2% 3M:+41.0% 세계1위 OCTG peer, 가격선행지표
 
 ### SeAH Wind ★
 - name: SeAH Wind ★
 - score: 1.0
-- positive_news_count: 39
-- negative_news_count: 8
-- kr_news_count: 13
+- positive_news_count: 36
+- negative_news_count: 7
+- kr_news_count: 12
 - en_news_count: 10
-- comment: 긍정39/부정8건(21일) [영문10+한국어13건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
+- comment: 긍정36/부정7건(21일) [영문10+한국어12건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
 - 뉴스:
   - Westwood Insight – How Mainland China is reshaping the offshore wind foundation market - Westwood Global Energy Group
   - Contracts for Difference and the economics of renewable energy deployment. - UK Parliament
   - SSE plc stock (GB0007908733): Is renewable energy expansion strong enough to unlock new upside? - AD HOC NEWS
-  - Realising the grid-expansion opportunity - PwC
   - Elia Group stock (BE0003822393): Why transmission grid expansion now drives the real value for inves - AD HOC NEWS
+  - Iberdrola Q1 2026 slides: profit jumps 11%, guidance raised to >8% - Investing.com
 
 ### Forward EPS/PER
 - name: Forward EPS/PER
 - score: 1.0
 - cycle_label: 슈퍼사이클
-- avg_cycle_score: 0.764
+- avg_cycle_score: 0.836
 - base_eps: 90000
 - wind_add_eps: 16000
 - total_eps: 106000
-- forward_per: 2.4
-- scenarios: 저점=16.7x  약한=8.3x  기본=5.6x  강세=3.8x  슈퍼=2.8x
-- comment: [슈퍼사이클] 업황0.76 → 본업90,000+Wind16,000=106,000원 → PER 2.4배
+- forward_per: 2.3
+- scenarios: 저점=16.4x  약한=8.2x  기본=5.5x  강세=3.8x  슈퍼=2.7x
+- comment: [슈퍼사이클] 업황0.84 → 본업90,000+Wind16,000=106,000원 → PER 2.3배
 
 ### 주가 돌파 신호
 - name: 주가 돌파 신호
-- score: 1.0
-- near_52w_high: True
-- volume_ratio_20d: 2.0634843047051104
+- score: 0.0
+- near_52w_high: False
+- volume_ratio_20d: 1.464105562423433
 - comment: 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0
 
 ### US Proxy 주가군
@@ -124,5 +124,5 @@
 - score_1m: 1.0
 - positive_1w: 7/7
 - positive_1m: 7/7
-- ticker_returns: DNOW:+8%/+11%  TS:+4%/+10%  BKR:+12%/+12%  HAL:+7%/+4%  SLB:+5%/+8%  HP:+10%/+10%  PTEN:+12%/+7%
+- ticker_returns: DNOW:+7%/+10%  TS:+2%/+9%  BKR:+10%/+13%  HAL:+7%/+7%  SLB:+2%/+8%  HP:+13%/+14%  PTEN:+14%/+14%
 - comment: 1W 7/7상승(1.0) / 1M 7/7상승(1.0) → 1.0
