@@ -1,12 +1,12 @@
 # 세아제강지주(003030) 일일 체크 리포트
 
-- 생성시각: 2026-05-07 23:16:05
-- 현재가: 213500.0
-- 거래량 배율(20일): 0.7600073393555875
+- 생성시각: 2026-05-08 23:15:54
+- 현재가: 205000.0
+- 거래량 배율(20일): 1.1228805000690998
 - 52주 고가권: False
 - 사이클 판단: [강세] 업황점수 0.557
 - 본업EPS 65,000 + SeAHWind ADD 16,000 = 81,000원
-- Forward PER: 2.6배
+- Forward PER: 2.5배
 - 종합점수: **61.7/100**
 - 판단: **우호적: 보유 우위, 돌파·거래량 확인**
 
@@ -15,18 +15,18 @@
 | 지표 | 가중치 | 점수 | 가중점수 | 코멘트 |
 |---|---:|---:|---:|---|
 | Pipe/OCTG PPI | 10 | 1.0 | 10.0 | 170.5 | 1M:+1.1% 3M:+2.8% 6M:+5.1% (FRED WPU10170652) |
-| Rig Count(후행) | 5 | 0.5 | 2.5 | 현재 547기 / 전주 대비 0기. ※후행지표(리그당생산량 24배↑) — 가중치 최소. |
+| Rig Count(후행) | 5 | 0.5 | 2.5 | 현재 548기 / 전주 대비 +1기. ※후행지표(리그당생산량 24배↑) — 가중치 최소. |
 | WTI 유가 | 10 | 1.0 | 10.0 | $109.8 | 1M:+7.7% 3M:+74.9% (FRED DCOILWTICO, 일간) |
 | 韓강관 對美수출볼륨 | 9 | 0.0 | 0.0 | 2026-03 $45.4M | MoM:-44.4% YoY:-32.2% (Census HS7306 한국산 강관 수입금액) |
 | 美Steel PPI | 8 | 0.5 | 4.0 | WPU1017=331.7 | 1M:+2.1% 3M:+6.2% (美HRC↑=韓수출경쟁력↑, FRED 월간) |
-| Tenaris(TS) OCTG선행 | 10 | 0.3 | 3.0 | $58.96 | 1W:-7.7% 1M:-0.4% 3M:+25.7% 세계1위 OCTG peer, 가격선행지표 |
-| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정47/부정6건(21일) [영문10+한국어32건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
-| Forward EPS/PER | 13 | 1.0 | 13.0 | [강세] 업황0.56 → 본업65,000+Wind16,000=81,000원 → PER 2.6배 |
+| Tenaris(TS) OCTG선행 | 10 | 0.3 | 3.0 | $59.81 | 1W:-6.1% 1M:-0.1% 3M:+25.9% 세계1위 OCTG peer, 가격선행지표 |
+| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정56/부정5건(21일) [영문10+한국어39건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
+| Forward EPS/PER | 13 | 1.0 | 13.0 | [강세] 업황0.56 → 본업65,000+Wind16,000=81,000원 → PER 2.5배 |
 | 주가 돌파 신호 | 11 | 0.0 | 0.0 | 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0 |
 | US Proxy 주가군 | 12 | 0.6 | 7.2 | 1W 0/7상승(0.0) / 1M 6/7상승(1.0) → 0.6 |
 
 ## 시나리오
-저점=14.2x  약한=7.1x  기본=4.7x  강세=3.3x  슈퍼=2.4x
+저점=13.7x  약한=6.8x  기본=4.6x  강세=3.2x  슈퍼=2.3x
 
 ## 원자료
 
@@ -42,9 +42,9 @@
 ### Rig Count(후행)
 - name: Rig Count(후행)
 - score: 0.5
-- latest: 547
+- latest: 548
 - previous: 547
-- comment: 현재 547기 / 전주 대비 0기. ※후행지표(리그당생산량 24배↑) — 가중치 최소.
+- comment: 현재 548기 / 전주 대비 +1기. ※후행지표(리그당생산량 24배↑) — 가중치 최소.
 
 ### WTI 유가
 - name: WTI 유가
@@ -76,27 +76,27 @@
 ### Tenaris(TS) OCTG선행
 - name: Tenaris(TS) OCTG선행
 - score: 0.3
-- price: 58.96
-- ret_1w: -0.0773
-- ret_1m: -0.0039
-- ret_3m: 0.2569
-- latest_date: 2026-05-07
-- comment: $58.96 | 1W:-7.7% 1M:-0.4% 3M:+25.7% 세계1위 OCTG peer, 가격선행지표
+- price: 59.81
+- ret_1w: -0.0611
+- ret_1m: -0.0013
+- ret_3m: 0.2589
+- latest_date: 2026-05-08
+- comment: $59.81 | 1W:-6.1% 1M:-0.1% 3M:+25.9% 세계1위 OCTG peer, 가격선행지표
 
 ### SeAH Wind ★
 - name: SeAH Wind ★
 - score: 1.0
-- positive_news_count: 47
-- negative_news_count: 6
-- kr_news_count: 32
+- positive_news_count: 56
+- negative_news_count: 5
+- kr_news_count: 39
 - en_news_count: 10
-- comment: 긍정47/부정6건(21일) [영문10+한국어32건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
+- comment: 긍정56/부정5건(21일) [영문10+한국어39건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
 - 뉴스:
-  - Westwood Insight – How Mainland China is reshaping the offshore wind foundation market - Westwood Global Energy Group
   - UK sets initial CfD CIB budget for AR8 - reNews
   - UK needs 5GW of offshore wind every year to stay on track for government goals - Offshore Energies UK (OEUK)
   - Madrid summit: Wind’s record expansion at risk as political intervention threatens revenue - Recharge News
   - Iberdrola Q1 2026 slides: profit jumps 11%, guidance raised to >8% - Investing.com
+  - Iberdrola S.A. stock (ES0144580F34): Is renewable energy expansion strong enough to unlock new upsid - AD HOC NEWS
 
 ### Forward EPS/PER
 - name: Forward EPS/PER
@@ -106,15 +106,15 @@
 - base_eps: 65000
 - wind_add_eps: 16000
 - total_eps: 81000
-- forward_per: 2.6
-- scenarios: 저점=14.2x  약한=7.1x  기본=4.7x  강세=3.3x  슈퍼=2.4x
-- comment: [강세] 업황0.56 → 본업65,000+Wind16,000=81,000원 → PER 2.6배
+- forward_per: 2.5
+- scenarios: 저점=13.7x  약한=6.8x  기본=4.6x  강세=3.2x  슈퍼=2.3x
+- comment: [강세] 업황0.56 → 본업65,000+Wind16,000=81,000원 → PER 2.5배
 
 ### 주가 돌파 신호
 - name: 주가 돌파 신호
 - score: 0.0
 - near_52w_high: False
-- volume_ratio_20d: 0.7600073393555875
+- volume_ratio_20d: 1.1228805000690998
 - comment: 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0
 
 ### US Proxy 주가군
@@ -124,5 +124,5 @@
 - score_1m: 1.0
 - positive_1w: 0/7
 - positive_1m: 6/7
-- ticker_returns: DNOW:-3%/+7%  TS:-8%/-0%  BKR:-9%/+1%  HAL:-8%/+4%  SLB:-7%/+1%  HP:-9%/+5%  PTEN:-7%/+13%
+- ticker_returns: DNOW:-3%/+7%  TS:-6%/-0%  BKR:-7%/+2%  HAL:-4%/+6%  SLB:-6%/+3%  HP:-7%/+9%  PTEN:-5%/+14%
 - comment: 1W 0/7상승(0.0) / 1M 6/7상승(1.0) → 0.6
