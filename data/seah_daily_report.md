@@ -1,13 +1,13 @@
 # 세아제강지주(003030) 일일 체크 리포트
 
-- 생성시각: 2026-05-13 23:34:45
-- 현재가: 182300.0
-- 거래량 배율(20일): 0.6528243336987201
+- 생성시각: 2026-05-14 23:14:42
+- 현재가: 188100.0
+- 거래량 배율(20일): 0.6490514832185492
 - 52주 고가권: False
-- 사이클 판단: [강세] 업황점수 0.696
-- 본업EPS 65,000 + SeAHWind ADD 16,000 = 81,000원
-- Forward PER: 2.3배
-- 종합점수: **71.5/100**
+- 사이클 판단: [슈퍼사이클] 업황점수 0.714
+- 본업EPS 90,000 + SeAHWind ADD 16,000 = 106,000원
+- Forward PER: 1.8배
+- 종합점수: **73.0/100**
 - 판단: **우호적: 보유 우위, 돌파·거래량 확인**
 
 ## 지표별 점수
@@ -19,14 +19,14 @@
 | WTI 유가 | 10 | 0.8 | 8.0 | $101.6 | 1M:+1.9% 3M:+57.3% (FRED DCOILWTICO, 일간) |
 | 韓강관 對美수출볼륨 | 9 | 0.25 | 2.25 | Census API 데이터 없음 (2~4개월 지연) |
 | 美Steel PPI | 8 | 0.65 | 5.2 | WPU1017=344.2 | 1M:+3.8% 3M:+9.2% (美HRC↑=韓수출경쟁력↑, FRED 월간) |
-| Tenaris(TS) OCTG선행 | 10 | 0.775 | 7.75 | $63.60 | 1W:+1.9% 1M:+9.9% 3M:+35.1% 세계1위 OCTG peer, 가격선행지표 |
-| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정35/부정5건(21일) [영문10+한국어26건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
-| Forward EPS/PER | 13 | 1.0 | 13.0 | [강세] 업황0.70 → 본업65,000+Wind16,000=81,000원 → PER 2.3배 |
+| Tenaris(TS) OCTG선행 | 10 | 0.8 | 8.0 | $62.83 | 1W:+6.6% 1M:+6.9% 3M:+29.3% 세계1위 OCTG peer, 가격선행지표 |
+| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정43/부정5건(21일) [영문10+한국어32건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
+| Forward EPS/PER | 13 | 1.0 | 13.0 | [슈퍼사이클] 업황0.71 → 본업90,000+Wind16,000=106,000원 → PER 1.8배 |
 | 주가 돌파 신호 | 11 | 0.0 | 0.0 | 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0 |
-| US Proxy 주가군 | 12 | 0.9 | 10.8 | 1W 4/7상승(0.75) / 1M 7/7상승(1.0) → 0.9 |
+| US Proxy 주가군 | 12 | 1.0 | 12.0 | 1W 7/7상승(1.0) / 1M 7/7상승(1.0) → 1.0 |
 
 ## 시나리오
-저점=12.2x  약한=6.1x  기본=4.1x  강세=2.8x  슈퍼=2.0x
+저점=12.5x  약한=6.3x  기본=4.2x  강세=2.9x  슈퍼=2.1x
 
 ## 원자료
 
@@ -71,54 +71,54 @@
 
 ### Tenaris(TS) OCTG선행
 - name: Tenaris(TS) OCTG선행
-- score: 0.775
-- price: 63.6
-- ret_1w: 0.0187
-- ret_1m: 0.0986
-- ret_3m: 0.3509
-- latest_date: 2026-05-13
-- comment: $63.60 | 1W:+1.9% 1M:+9.9% 3M:+35.1% 세계1위 OCTG peer, 가격선행지표
+- score: 0.8
+- price: 62.83
+- ret_1w: 0.0656
+- ret_1m: 0.0685
+- ret_3m: 0.2931
+- latest_date: 2026-05-14
+- comment: $62.83 | 1W:+6.6% 1M:+6.9% 3M:+29.3% 세계1위 OCTG peer, 가격선행지표
 
 ### SeAH Wind ★
 - name: SeAH Wind ★
 - score: 1.0
-- positive_news_count: 35
+- positive_news_count: 43
 - negative_news_count: 5
-- kr_news_count: 26
+- kr_news_count: 32
 - en_news_count: 10
-- comment: 긍정35/부정5건(21일) [영문10+한국어26건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
+- comment: 긍정43/부정5건(21일) [영문10+한국어32건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
 - 뉴스:
-  - Iberdrola S.A. stock (ES0144580F34): Is renewable energy expansion strong enough to unlock new upsid - AD HOC NEWS
   - Iberdrola Q1 2026 slides: profit jumps 11%, guidance raised to >8% - Investing.com
+  - National Grid commits record £70bn to power the next decade of energy networks - Business Matters
+  - Iberdrola S.A. stock (ES0144580F34): Is renewable energy expansion strong enough to unlock new upsid - AD HOC NEWS
+  - All-Energy: 'Power policy stable despite uncertainty' - reNEWS.BIZ
   - Reform government could cause Truss-style chaos, says renewables industry - The Guardian
-  - News Content Hub - UK needs 5 GW of offshore wind every year to meet government goals - rivieramm.com
-  - Study: UK's offshore wind capacity to increase by around 20 per cent in 2026 - BusinessGreen
 
 ### Forward EPS/PER
 - name: Forward EPS/PER
 - score: 1.0
-- cycle_label: 강세
-- avg_cycle_score: 0.696
-- base_eps: 65000
+- cycle_label: 슈퍼사이클
+- avg_cycle_score: 0.714
+- base_eps: 90000
 - wind_add_eps: 16000
-- total_eps: 81000
-- forward_per: 2.3
-- scenarios: 저점=12.2x  약한=6.1x  기본=4.1x  강세=2.8x  슈퍼=2.0x
-- comment: [강세] 업황0.70 → 본업65,000+Wind16,000=81,000원 → PER 2.3배
+- total_eps: 106000
+- forward_per: 1.8
+- scenarios: 저점=12.5x  약한=6.3x  기본=4.2x  강세=2.9x  슈퍼=2.1x
+- comment: [슈퍼사이클] 업황0.71 → 본업90,000+Wind16,000=106,000원 → PER 1.8배
 
 ### 주가 돌파 신호
 - name: 주가 돌파 신호
 - score: 0.0
 - near_52w_high: False
-- volume_ratio_20d: 0.6528243336987201
+- volume_ratio_20d: 0.6490514832185492
 - comment: 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0
 
 ### US Proxy 주가군
 - name: US Proxy 주가군
-- score: 0.9
-- score_1w: 0.75
+- score: 1.0
+- score_1w: 1.0
 - score_1m: 1.0
-- positive_1w: 4/7
+- positive_1w: 7/7
 - positive_1m: 7/7
-- ticker_returns: DNOW:-3%/+10%  TS:+2%/+10%  BKR:-2%/+9%  HAL:+2%/+9%  SLB:+0%/+6%  HP:-4%/+11%  PTEN:+4%/+21%
-- comment: 1W 4/7상승(0.75) / 1M 7/7상승(1.0) → 0.9
+- ticker_returns: DNOW:+2%/+12%  TS:+7%/+7%  BKR:+2%/+7%  HAL:+6%/+8%  SLB:+5%/+8%  HP:+7%/+13%  PTEN:+6%/+16%
+- comment: 1W 7/7상승(1.0) / 1M 7/7상승(1.0) → 1.0
