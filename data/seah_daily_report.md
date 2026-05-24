@@ -1,13 +1,13 @@
 # 세아제강지주(003030) 일일 체크 리포트
 
-- 생성시각: 2026-05-22 23:36:33
+- 생성시각: 2026-05-24 23:30:50
 - 현재가: 170600.0
 - 거래량 배율(20일): 0.5499874271937388
 - 52주 고가권: False
-- 사이클 판단: [강세] 업황점수 0.682
+- 사이클 판단: [강세] 업황점수 0.646
 - 본업EPS 65,000 + SeAHWind ADD 16,000 = 81,000원
 - Forward PER: 2.1배
-- 종합점수: **69.0/100**
+- 종합점수: **67.7/100**
 - 판단: **우호적: 보유 우위, 돌파·거래량 확인**
 
 ## 지표별 점수
@@ -15,13 +15,13 @@
 | 지표 | 가중치 | 점수 | 가중점수 | 코멘트 |
 |---|---:|---:|---:|---|
 | Pipe/OCTG PPI | 10 | 1.0 | 10.0 | 170.5 | 1M:+1.1% 3M:+2.8% 6M:+5.1% (FRED WPU10170652) |
-| Rig Count(후행) | 5 | 0.75 | 3.75 | 현재 558기 / 전주 대비 +7기. ※후행지표(리그당생산량 24배↑) — 가중치 최소. |
+| Rig Count(후행) | 5 | 0.5 | 2.5 | 현재 558기 / 전주 대비 0기. ※후행지표(리그당생산량 24배↑) — 가중치 최소. |
 | WTI 유가 | 10 | 1.0 | 10.0 | $112.2 | 1M:+16.4% 3M:+73.2% (FRED DCOILWTICO, 일간) |
 | 韓강관 對美수출볼륨 | 9 | 0.25 | 2.25 | Census API 데이터 없음 (2~4개월 지연) |
 | 美Steel PPI | 8 | 0.65 | 5.2 | WPU1017=344.2 | 1M:+3.8% 3M:+9.2% (美HRC↑=韓수출경쟁력↑, FRED 월간) |
 | Tenaris(TS) OCTG선행 | 10 | 0.375 | 3.75 | $61.61 | 1W:+1.7% 1M:-0.7% 3M:+16.1% 세계1위 OCTG peer, 가격선행지표 |
-| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정40/부정0건(21일) [영문10+한국어14건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
-| Forward EPS/PER | 13 | 1.0 | 13.0 | [강세] 업황0.68 → 본업65,000+Wind16,000=81,000원 → PER 2.1배 |
+| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정39/부정0건(21일) [영문10+한국어13건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
+| Forward EPS/PER | 13 | 1.0 | 13.0 | [강세] 업황0.65 → 본업65,000+Wind16,000=81,000원 → PER 2.1배 |
 | 주가 돌파 신호 | 11 | 0.0 | 0.0 | 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0 |
 | US Proxy 주가군 | 12 | 0.75 | 9.0 | 1W 4/7상승(0.75) / 1M 5/7상승(0.75) → 0.75 |
 
@@ -41,10 +41,10 @@
 
 ### Rig Count(후행)
 - name: Rig Count(후행)
-- score: 0.75
+- score: 0.5
 - latest: 558
-- previous: 551
-- comment: 현재 558기 / 전주 대비 +7기. ※후행지표(리그당생산량 24배↑) — 가중치 최소.
+- previous: 558
+- comment: 현재 558기 / 전주 대비 0기. ※후행지표(리그당생산량 24배↑) — 가중치 최소.
 
 ### WTI 유가
 - name: WTI 유가
@@ -82,29 +82,29 @@
 ### SeAH Wind ★
 - name: SeAH Wind ★
 - score: 1.0
-- positive_news_count: 40
+- positive_news_count: 39
 - negative_news_count: 0
-- kr_news_count: 14
+- kr_news_count: 13
 - en_news_count: 10
-- comment: 긍정40/부정0건(21일) [영문10+한국어14건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
+- comment: 긍정39/부정0건(21일) [영문10+한국어13건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
 - 뉴스:
-  - RWE Offshore Wind Approvals Expand UK Pipeline And Raise Valuation Questions - Trending Now Sustainable Construction
   - National Grid commits record £70bn to power the next decade of energy networks - Business Matters
+  - RWE Offshore Wind Approvals Expand UK Pipeline And Raise Valuation Questions - Yahoo Finance
   - OnPath Energy Targets £1 bn Renewable Energy Investment in Scotland with 121 MW Wind Expansion - GreentechLead
   - UK Offshore Wind Legislation Updated to Broaden Environmental Compensation Options - News and Statistics - IndexBox
-  - Study: UK's offshore wind capacity to increase by around 20 per cent in 2026 - BusinessGreen
+  - Reform government could cause Truss-style chaos, says renewables industry | Renewable energy - The Guardian
 
 ### Forward EPS/PER
 - name: Forward EPS/PER
 - score: 1.0
 - cycle_label: 강세
-- avg_cycle_score: 0.682
+- avg_cycle_score: 0.646
 - base_eps: 65000
 - wind_add_eps: 16000
 - total_eps: 81000
 - forward_per: 2.1
 - scenarios: 저점=11.4x  약한=5.7x  기본=3.8x  강세=2.6x  슈퍼=1.9x
-- comment: [강세] 업황0.68 → 본업65,000+Wind16,000=81,000원 → PER 2.1배
+- comment: [강세] 업황0.65 → 본업65,000+Wind16,000=81,000원 → PER 2.1배
 
 ### 주가 돌파 신호
 - name: 주가 돌파 신호
