@@ -1,6 +1,6 @@
 # 세아제강지주(003030) 일일 체크 리포트
 
-- 생성시각: 2026-05-24 23:30:50
+- 생성시각: 2026-05-25 23:35:59
 - 현재가: 170600.0
 - 거래량 배율(20일): 0.5499874271937388
 - 52주 고가권: False
@@ -20,7 +20,7 @@
 | 韓강관 對美수출볼륨 | 9 | 0.25 | 2.25 | Census API 데이터 없음 (2~4개월 지연) |
 | 美Steel PPI | 8 | 0.65 | 5.2 | WPU1017=344.2 | 1M:+3.8% 3M:+9.2% (美HRC↑=韓수출경쟁력↑, FRED 월간) |
 | Tenaris(TS) OCTG선행 | 10 | 0.375 | 3.75 | $61.61 | 1W:+1.7% 1M:-0.7% 3M:+16.1% 세계1위 OCTG peer, 가격선행지표 |
-| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정39/부정0건(21일) [영문10+한국어13건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
+| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정34/부정0건(21일) [영문10+한국어9건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
 | Forward EPS/PER | 13 | 1.0 | 13.0 | [강세] 업황0.65 → 본업65,000+Wind16,000=81,000원 → PER 2.1배 |
 | 주가 돌파 신호 | 11 | 0.0 | 0.0 | 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0 |
 | US Proxy 주가군 | 12 | 0.75 | 9.0 | 1W 4/7상승(0.75) / 1M 5/7상승(0.75) → 0.75 |
@@ -82,17 +82,17 @@
 ### SeAH Wind ★
 - name: SeAH Wind ★
 - score: 1.0
-- positive_news_count: 39
+- positive_news_count: 34
 - negative_news_count: 0
-- kr_news_count: 13
+- kr_news_count: 9
 - en_news_count: 10
-- comment: 긍정39/부정0건(21일) [영문10+한국어13건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
+- comment: 긍정34/부정0건(21일) [영문10+한국어9건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
 - 뉴스:
-  - National Grid commits record £70bn to power the next decade of energy networks - Business Matters
   - RWE Offshore Wind Approvals Expand UK Pipeline And Raise Valuation Questions - Yahoo Finance
+  - National Grid commits record £70bn to power the next decade of energy networks - Business Matters
   - OnPath Energy Targets £1 bn Renewable Energy Investment in Scotland with 121 MW Wind Expansion - GreentechLead
-  - UK Offshore Wind Legislation Updated to Broaden Environmental Compensation Options - News and Statistics - IndexBox
-  - Reform government could cause Truss-style chaos, says renewables industry | Renewable energy - The Guardian
+  - News Content Hub - UK needs 5 GW of offshore wind every year to meet government goals - rivieramm.com
+  - Homegrown policy must match homegrown energy ambition - Offshore Energies UK (OEUK)
 
 ### Forward EPS/PER
 - name: Forward EPS/PER
