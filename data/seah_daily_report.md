@@ -1,32 +1,32 @@
 # 세아제강지주(003030) 일일 체크 리포트
 
-- 생성시각: 2026-06-19 00:02:55
-- 현재가: 133000.0
-- 거래량 배율(20일): 0.7065067831443109
+- 생성시각: 2026-06-19 23:33:18
+- 현재가: 127100.0
+- 거래량 배율(20일): 0.6281099552357433
 - 52주 고가권: False
-- 사이클 판단: [기본회복] 업황점수 0.404
-- 본업EPS 45,000 + SeAHWind ADD 16,000 = 61,000원
-- Forward PER: 2.2배
-- 종합점수: **47.0/100**
-- 판단: **중립: 모멘텀 확인 필요**
+- 사이클 판단: [약한회복] 업황점수 0.332
+- 본업EPS 30,000 + SeAHWind ADD 16,000 = 46,000원
+- Forward PER: 2.8배
+- 종합점수: **44.5/100**
+- 판단: **약세: 테마 약화 또는 실적 확인 전**
 
 ## 지표별 점수
 
 | 지표 | 가중치 | 점수 | 가중점수 | 코멘트 |
 |---|---:|---:|---:|---|
 | Pipe/OCTG PPI | 10 | 1.0 | 10.0 | 167.5 | 1M:+2.0% 3M:+3.8% 6M:+3.9% (FRED WPU10170652) |
-| Rig Count(후행) | 5 | 1.0 | 5.0 | 현재 563기 / 전주 대비 +130기. ※후행지표(리그당생산량 24배↑) — 가중치 최소. |
+| Rig Count(후행) | 5 | 0.5 | 2.5 | 현재 563기 / 전주 대비 0기. ※후행지표(리그당생산량 24배↑) — 가중치 최소. |
 | WTI 유가 | 10 | 0.0 | 0.0 | $84.7 | 1M:-19.0% 3M:-2.5% (FRED DCOILWTICO, 일간) |
 | 韓강관 對美수출볼륨 | 9 | 0.25 | 2.25 | Census API 데이터 없음 (2~4개월 지연) |
 | 美Steel PPI | 8 | 0.5 | 4.0 | WPU1017=348.5 | 1M:+2.1% 3M:+7.2% (美HRC↑=韓수출경쟁력↑, FRED 월간) |
 | Tenaris(TS) OCTG선행 | 10 | 0.075 | 0.75 | $57.22 | 1W:-7.7% 1M:-5.7% 3M:+4.5% 세계1위 OCTG peer, 가격선행지표 |
-| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정140/부정0건(21일) [영문10+한국어109건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
-| Forward EPS/PER | 13 | 1.0 | 13.0 | [기본회복] 업황0.40 → 본업45,000+Wind16,000=61,000원 → PER 2.2배 |
+| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정143/부정0건(21일) [영문10+한국어116건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
+| Forward EPS/PER | 13 | 1.0 | 13.0 | [약한회복] 업황0.33 → 본업30,000+Wind16,000=46,000원 → PER 2.8배 |
 | 주가 돌파 신호 | 11 | 0.0 | 0.0 | 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0 |
 | US Proxy 주가군 | 12 | 0.0 | 0.0 | 1W 0/7상승(0.0) / 1M 1/7상승(0.0) → 0.0 |
 
 ## 시나리오
-저점=8.9x  약한=4.4x  기본=3.0x  강세=2.0x  슈퍼=1.5x
+저점=8.5x  약한=4.2x  기본=2.8x  강세=2.0x  슈퍼=1.4x
 
 ## 원자료
 
@@ -41,10 +41,10 @@
 
 ### Rig Count(후행)
 - name: Rig Count(후행)
-- score: 1.0
+- score: 0.5
 - latest: 563
-- previous: 433
-- comment: 현재 563기 / 전주 대비 +130기. ※후행지표(리그당생산량 24배↑) — 가중치 최소.
+- previous: 563
+- comment: 현재 563기 / 전주 대비 0기. ※후행지표(리그당생산량 24배↑) — 가중치 최소.
 
 ### WTI 유가
 - name: WTI 유가
@@ -82,35 +82,35 @@
 ### SeAH Wind ★
 - name: SeAH Wind ★
 - score: 1.0
-- positive_news_count: 140
+- positive_news_count: 143
 - negative_news_count: 0
-- kr_news_count: 109
+- kr_news_count: 116
 - en_news_count: 10
-- comment: 긍정140/부정0건(21일) [영문10+한국어109건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
+- comment: 긍정143/부정0건(21일) [영문10+한국어116건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
 - 뉴스:
   - Trouble ahead on Teesside: SeAH Wind faces a financial storm - North East Bylines
   - Tees Valley Mayor Ben Houchen challenged on SeAH Wind 'success' in Teesside - Teesside Live
-  - Teesside and North Yorkshire residents recognised in King’s Birthday Honours list - Teesside Live
-  - King's Birthday Honours: Olympic team manager and literacy heroine among Teessiders recognised - Teesside Live
+  - GOW 2026: TNuOS ‘must be fixed’ for Scots arrays - reNews
   - Contracts for Difference Allocation Round 8 (AR8): What we know so far - Burges Salmon
+  - Iberdrola Stock - strategy and grid expansion in focus - AD HOC NEWS
 
 ### Forward EPS/PER
 - name: Forward EPS/PER
 - score: 1.0
-- cycle_label: 기본회복
-- avg_cycle_score: 0.404
-- base_eps: 45000
+- cycle_label: 약한회복
+- avg_cycle_score: 0.332
+- base_eps: 30000
 - wind_add_eps: 16000
-- total_eps: 61000
-- forward_per: 2.2
-- scenarios: 저점=8.9x  약한=4.4x  기본=3.0x  강세=2.0x  슈퍼=1.5x
-- comment: [기본회복] 업황0.40 → 본업45,000+Wind16,000=61,000원 → PER 2.2배
+- total_eps: 46000
+- forward_per: 2.8
+- scenarios: 저점=8.5x  약한=4.2x  기본=2.8x  강세=2.0x  슈퍼=1.4x
+- comment: [약한회복] 업황0.33 → 본업30,000+Wind16,000=46,000원 → PER 2.8배
 
 ### 주가 돌파 신호
 - name: 주가 돌파 신호
 - score: 0.0
 - near_52w_high: False
-- volume_ratio_20d: 0.7065067831443109
+- volume_ratio_20d: 0.6281099552357433
 - comment: 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0
 
 ### US Proxy 주가군
