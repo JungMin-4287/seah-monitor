@@ -1,6 +1,6 @@
 # 세아제강지주(003030) 일일 체크 리포트
 
-- 생성시각: 2026-06-19 23:33:18
+- 생성시각: 2026-06-21 23:49:09
 - 현재가: 127100.0
 - 거래량 배율(20일): 0.6281099552357433
 - 52주 고가권: False
@@ -20,7 +20,7 @@
 | 韓강관 對美수출볼륨 | 9 | 0.25 | 2.25 | Census API 데이터 없음 (2~4개월 지연) |
 | 美Steel PPI | 8 | 0.5 | 4.0 | WPU1017=348.5 | 1M:+2.1% 3M:+7.2% (美HRC↑=韓수출경쟁력↑, FRED 월간) |
 | Tenaris(TS) OCTG선행 | 10 | 0.075 | 0.75 | $57.22 | 1W:-7.7% 1M:-5.7% 3M:+4.5% 세계1위 OCTG peer, 가격선행지표 |
-| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정143/부정0건(21일) [영문10+한국어116건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
+| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정108/부정0건(21일) [영문10+한국어90건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
 | Forward EPS/PER | 13 | 1.0 | 13.0 | [약한회복] 업황0.33 → 본업30,000+Wind16,000=46,000원 → PER 2.8배 |
 | 주가 돌파 신호 | 11 | 0.0 | 0.0 | 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0 |
 | US Proxy 주가군 | 12 | 0.0 | 0.0 | 1W 0/7상승(0.0) / 1M 1/7상승(0.0) → 0.0 |
@@ -82,17 +82,17 @@
 ### SeAH Wind ★
 - name: SeAH Wind ★
 - score: 1.0
-- positive_news_count: 143
+- positive_news_count: 108
 - negative_news_count: 0
-- kr_news_count: 116
+- kr_news_count: 90
 - en_news_count: 10
-- comment: 긍정143/부정0건(21일) [영문10+한국어116건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
+- comment: 긍정108/부정0건(21일) [영문10+한국어90건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
 - 뉴스:
-  - Trouble ahead on Teesside: SeAH Wind faces a financial storm - North East Bylines
   - Tees Valley Mayor Ben Houchen challenged on SeAH Wind 'success' in Teesside - Teesside Live
-  - GOW 2026: TNuOS ‘must be fixed’ for Scots arrays - reNews
   - Contracts for Difference Allocation Round 8 (AR8): What we know so far - Burges Salmon
+  - GOW 2026: TNuOS ‘must be fixed’ for Scots arrays - reNews
   - Iberdrola Stock - strategy and grid expansion in focus - AD HOC NEWS
+  - GOW 2026: Scots eyes ‘game changing’ offshore - reNews
 
 ### Forward EPS/PER
 - name: Forward EPS/PER
