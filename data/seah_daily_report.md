@@ -1,12 +1,12 @@
 # 세아제강지주(003030) 일일 체크 리포트
 
-- 생성시각: 2026-06-22 23:47:24
-- 현재가: 122000.0
-- 거래량 배율(20일): 0.7239023728533661
+- 생성시각: 2026-06-23 23:33:34
+- 현재가: 115500.0
+- 거래량 배율(20일): 0.5963210026278553
 - 52주 고가권: False
 - 사이클 판단: [약한회복] 업황점수 0.332
 - 본업EPS 30,000 + SeAHWind ADD 16,000 = 46,000원
-- Forward PER: 2.7배
+- Forward PER: 2.5배
 - 종합점수: **44.5/100**
 - 판단: **약세: 테마 약화 또는 실적 확인 전**
 
@@ -19,14 +19,14 @@
 | WTI 유가 | 10 | 0.0 | 0.0 | $84.7 | 1M:-19.0% 3M:-2.5% (FRED DCOILWTICO, 일간) |
 | 韓강관 對美수출볼륨 | 9 | 0.25 | 2.25 | Census API 데이터 없음 (2~4개월 지연) |
 | 美Steel PPI | 8 | 0.5 | 4.0 | WPU1017=348.5 | 1M:+2.1% 3M:+7.2% (美HRC↑=韓수출경쟁력↑, FRED 월간) |
-| Tenaris(TS) OCTG선행 | 10 | 0.075 | 0.75 | $58.15 | 1W:-7.6% 1M:-5.9% 3M:+3.8% 세계1위 OCTG peer, 가격선행지표 |
-| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정111/부정1건(21일) [영문10+한국어91건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
-| Forward EPS/PER | 13 | 1.0 | 13.0 | [약한회복] 업황0.33 → 본업30,000+Wind16,000=46,000원 → PER 2.7배 |
+| Tenaris(TS) OCTG선행 | 10 | 0.075 | 0.75 | $58.03 | 1W:-5.9% 1M:-5.8% 3M:+3.4% 세계1위 OCTG peer, 가격선행지표 |
+| SeAH Wind ★ | 12 | 1.0 | 12.0 | 긍정117/부정1건(21일) [영문10+한국어92건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식. |
+| Forward EPS/PER | 13 | 1.0 | 13.0 | [약한회복] 업황0.33 → 본업30,000+Wind16,000=46,000원 → PER 2.5배 |
 | 주가 돌파 신호 | 11 | 0.0 | 0.0 | 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0 |
 | US Proxy 주가군 | 12 | 0.0 | 0.0 | 1W 0/7상승(0.0) / 1M 1/7상승(0.0) → 0.0 |
 
 ## 시나리오
-저점=8.1x  약한=4.1x  기본=2.7x  강세=1.9x  슈퍼=1.4x
+저점=7.7x  약한=3.9x  기본=2.6x  강세=1.8x  슈퍼=1.3x
 
 ## 원자료
 
@@ -72,27 +72,27 @@
 ### Tenaris(TS) OCTG선행
 - name: Tenaris(TS) OCTG선행
 - score: 0.075
-- price: 58.15
-- ret_1w: -0.0758
-- ret_1m: -0.0586
-- ret_3m: 0.0383
-- latest_date: 2026-06-22
-- comment: $58.15 | 1W:-7.6% 1M:-5.9% 3M:+3.8% 세계1위 OCTG peer, 가격선행지표
+- price: 58.03
+- ret_1w: -0.0587
+- ret_1m: -0.0581
+- ret_3m: 0.034
+- latest_date: 2026-06-23
+- comment: $58.03 | 1W:-5.9% 1M:-5.8% 3M:+3.4% 세계1위 OCTG peer, 가격선행지표
 
 ### SeAH Wind ★
 - name: SeAH Wind ★
 - score: 1.0
-- positive_news_count: 111
+- positive_news_count: 117
 - negative_news_count: 1
-- kr_news_count: 91
+- kr_news_count: 92
 - en_news_count: 10
-- comment: 긍정111/부정1건(21일) [영문10+한국어91건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
+- comment: 긍정117/부정1건(21일) [영문10+한국어92건] | 영국CfD AR8·CIB 유일수혜. 수주잔고~2조, 26H2 매출인식.
 - 뉴스:
   - Tees Valley Mayor Ben Houchen challenged on SeAH Wind 'success' in Teesside - Teesside Live
   - GOW 2026: TNuOS ‘must be fixed’ for Scots arrays - reNews
   - Contracts for Difference Allocation Round 8 (AR8): What we know so far - Burges Salmon
+  - GOW 2026: ORE Catapult calls for ‘coordinated action’ on deepwater wind - reNews
   - Iberdrola Stock - strategy and grid expansion in focus - AD HOC NEWS
-  - GOW 2026: Scots eyes ‘game changing’ offshore - reNews
 
 ### Forward EPS/PER
 - name: Forward EPS/PER
@@ -102,15 +102,15 @@
 - base_eps: 30000
 - wind_add_eps: 16000
 - total_eps: 46000
-- forward_per: 2.7
-- scenarios: 저점=8.1x  약한=4.1x  기본=2.7x  강세=1.9x  슈퍼=1.4x
-- comment: [약한회복] 업황0.33 → 본업30,000+Wind16,000=46,000원 → PER 2.7배
+- forward_per: 2.5
+- scenarios: 저점=7.7x  약한=3.9x  기본=2.6x  강세=1.8x  슈퍼=1.3x
+- comment: [약한회복] 업황0.33 → 본업30,000+Wind16,000=46,000원 → PER 2.5배
 
 ### 주가 돌파 신호
 - name: 주가 돌파 신호
 - score: 0.0
 - near_52w_high: False
-- volume_ratio_20d: 0.7239023728533661
+- volume_ratio_20d: 0.5963210026278553
 - comment: 52주고가 98%+ & 거래량 2배+ 동시 충족 시 1.0
 
 ### US Proxy 주가군
@@ -120,5 +120,5 @@
 - score_1m: 0.0
 - positive_1w: 0/7
 - positive_1m: 1/7
-- ticker_returns: DNOW:-2%/+6%  TS:-8%/-6%  BKR:-6%/-10%  HAL:-11%/-16%  SLB:-15%/-16%  HP:-10%/-10%  PTEN:-11%/-16%
+- ticker_returns: DNOW:-2%/+3%  TS:-6%/-6%  BKR:-6%/-11%  HAL:-8%/-15%  SLB:-11%/-16%  HP:-4%/-11%  PTEN:-6%/-17%
 - comment: 1W 0/7상승(0.0) / 1M 1/7상승(0.0) → 0.0
